@@ -1,23 +1,28 @@
 package com.shop.webshop.models;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "Customer")
 public class Customer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Order> orders;
 
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Cart cart;
 
     public Long getId() {

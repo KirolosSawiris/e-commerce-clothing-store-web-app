@@ -1,0 +1,26 @@
+package com.shop.webshop.controllers;
+
+import com.shop.webshop.models.Category;
+import com.shop.webshop.repositories.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/categories")
+public class CategoryController {
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @GetMapping
+    public List<Category> list()
+    {
+        return categoryRepository.findAll();
+    }
+
+    @PostMapping
+    public Category create(@RequestBody final Category category){
+        return categoryRepository.saveAndFlush(category);
+    }
+}

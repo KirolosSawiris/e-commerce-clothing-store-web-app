@@ -17,7 +17,6 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
     private int quantity;
 
     public Long getId() {
