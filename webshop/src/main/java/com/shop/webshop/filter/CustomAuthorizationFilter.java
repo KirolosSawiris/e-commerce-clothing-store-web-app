@@ -16,10 +16,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -40,7 +38,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String username = decodedJWT.getSubject();
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    authorities.add(new SimpleGrantedAuthority("ROLE_Admin"));
+//                    authorities.add(new SimpleGrantedAuthority("ROLE_Admin"));
+                    List<String> roles = decodedJWT.getClaim("roles").asList(String.class);
+                    roles.forEach(role -> {authorities.add(new SimpleGrantedAuthority(role));});
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
