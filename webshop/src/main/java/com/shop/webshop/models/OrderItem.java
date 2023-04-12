@@ -3,7 +3,7 @@ package com.shop.webshop.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "OrderItem")
+@Table(name = "OrderItems")
 public class OrderItem {
 
     @Id
