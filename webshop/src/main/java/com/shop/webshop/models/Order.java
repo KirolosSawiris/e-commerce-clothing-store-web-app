@@ -1,10 +1,14 @@
 package com.shop.webshop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "Orders")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Order {
 
     @Id
@@ -12,6 +16,7 @@ public class Order {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

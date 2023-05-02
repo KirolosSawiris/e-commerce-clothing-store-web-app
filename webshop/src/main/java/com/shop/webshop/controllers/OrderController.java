@@ -1,5 +1,6 @@
 package com.shop.webshop.controllers;
 
+import com.shop.webshop.models.CartItem;
 import com.shop.webshop.models.Order;
 import com.shop.webshop.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,9 @@ public class OrderController {
     @PostMapping
     public Order create(@RequestBody final Order order){
         return orderRepository.saveAndFlush(order);
+    }
+    @GetMapping("/{id}")
+    public Order get(@PathVariable ("id") long id){
+        return orderRepository.getOne(id);
     }
 }

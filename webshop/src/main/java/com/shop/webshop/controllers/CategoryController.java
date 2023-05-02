@@ -1,5 +1,6 @@
 package com.shop.webshop.controllers;
 
+import com.shop.webshop.models.CartItem;
 import com.shop.webshop.models.Category;
 import com.shop.webshop.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,9 @@ public class CategoryController {
     @PostMapping
     public Category create(@RequestBody final Category category){
         return categoryRepository.saveAndFlush(category);
+    }
+    @GetMapping("/{id}")
+    public Category get(@PathVariable ("id") long id){
+        return categoryRepository.getOne(id);
     }
 }

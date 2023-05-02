@@ -1,11 +1,13 @@
 package com.shop.webshop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "authorities")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Role {
     public Role(String name) {
         this.name = name;

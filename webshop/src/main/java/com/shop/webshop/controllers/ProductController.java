@@ -1,5 +1,6 @@
 package com.shop.webshop.controllers;
 
+import com.shop.webshop.models.CartItem;
 import com.shop.webshop.models.Product;
 import com.shop.webshop.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,9 @@ public class ProductController {
     @PostMapping
     public Product create(@RequestBody final Product product){
         return productRepository.saveAndFlush(product);
+    }
+    @GetMapping("/{id}")
+    public Product get(@PathVariable ("id") long id){
+        return productRepository.getOne(id);
     }
 }

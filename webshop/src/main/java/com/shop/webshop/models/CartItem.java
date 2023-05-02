@@ -1,10 +1,14 @@
 package com.shop.webshop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.persistence.criteria.Fetch;
 
 @Entity
 @Table(name = "CartItems")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class CartItem {
 
     @Id
@@ -13,6 +17,7 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @JsonIgnore
     private Cart cart;
     @ManyToOne
     @JoinColumn(name = "product_id")
