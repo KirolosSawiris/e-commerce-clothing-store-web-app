@@ -1,5 +1,6 @@
 package com.shop.webshop.controllers;
 
+import com.shop.webshop.models.CartItem;
 import com.shop.webshop.models.Role;
 import com.shop.webshop.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,9 @@ public class RoleController {
     @PostMapping
     public Role create(@RequestBody final Role role){
         return roleRepository.saveAndFlush(role);
+    }
+    @GetMapping("/{id}")
+    public Role get(@PathVariable ("id") long id){
+        return roleRepository.getOne(id);
     }
 }

@@ -1,9 +1,13 @@
 package com.shop.webshop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "OrderItems")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class OrderItem {
 
     @Id
@@ -12,6 +16,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
     @ManyToOne
     @JoinColumn(name = "product_id")

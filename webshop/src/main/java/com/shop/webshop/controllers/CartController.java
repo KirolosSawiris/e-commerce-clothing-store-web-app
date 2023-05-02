@@ -3,6 +3,7 @@ package com.shop.webshop.controllers;
 import com.shop.webshop.models.Cart;
 import com.shop.webshop.repositories.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,5 +23,9 @@ public class CartController {
     @PostMapping
     public Cart create(@RequestBody final Cart cart){
         return cartRepository.saveAndFlush(cart);
+    }
+    @GetMapping("/{id}")
+    public Cart get(@PathVariable ("id") long id){
+        return cartRepository.getOne(id);
     }
 }

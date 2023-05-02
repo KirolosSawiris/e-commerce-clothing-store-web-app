@@ -1,5 +1,7 @@
 package com.shop.webshop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Products")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Product {
 
     @Id
@@ -19,12 +22,17 @@ public class Product {
     private String color;
     private String size;
     private String description;
+    @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
+    private byte[] photo;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<OrderItem> orderItems;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<CartItem> cartItems;
 
     public Category getCategory() {
@@ -50,10 +58,6 @@ public class Product {
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
-
-    @Lob
-    @Type(type = "org.hibernate.type.BinaryType")
-    private byte[] photo;
 
     public int getQuantity() {
         return quantity;

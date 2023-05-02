@@ -24,4 +24,8 @@ public class CartItemController {
     public CartItem create(@RequestBody final CartItem cartItem){
         return cartItemRepository.saveAndFlush(cartItem);
     }
+    @GetMapping("/{id}")
+    public CartItem get(@PathVariable ("id") long id){
+        return cartItemRepository.getOne(id);
+    }
 }
