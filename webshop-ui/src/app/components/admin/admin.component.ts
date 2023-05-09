@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from 'src/app/services/customer.service';
 import { LoginComponent } from '../login/login.component';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-admin',
@@ -8,15 +9,15 @@ import { LoginComponent } from '../login/login.component';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit{
-  public customers: any;
 
-  constructor(private customerService: CustomerService){}
+  public products: any;
 
-  ngOnInit() {}
+  constructor(private apiService: ApiService){}
+  ngOnInit(): void {this.getProducts()}
 
-  getCustomer(token: string){
-    this.customerService.getCustomers(token).subscribe(
-      data => {this.customers = data}
+  getProducts(){
+    this.apiService.getProducts().subscribe(
+      data => {this.products = data}
     );
   }
 

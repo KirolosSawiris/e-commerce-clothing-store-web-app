@@ -22,9 +22,7 @@ public class Product {
     private String color;
     private String size;
     private String description;
-    @Lob
-    @Type(type = "org.hibernate.type.BinaryType")
-    private byte[] photo;
+    private String image;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -115,12 +113,12 @@ public class Product {
         this.description = description;
     }
 
-    public byte[] getPhoto() {
-        return photo;
+    public String getImage() {
+        return image;
     }
 
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setImage(String image) {
+        this.image = image;
     }
 
 
