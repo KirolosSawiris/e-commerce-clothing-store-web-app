@@ -6,18 +6,18 @@
         <th>Model</th>
         <th class="text-right">Purchase Price</th>
       </tr>
-      <tr *ngFor="let customer of customers">
+      <tr *ngFor="let customer of products">
         <td>
             {{customer.id}}
           </td>
         <td>
-          {{customer.firstName}}
+          {{customer.title}}
         </td>
         <td>
-            {{customer.lastName}}
+            {{customer.price}}
           </td>
         <td>
-          {{customer.email}}
+          {{customer.color}}
         </td>
       </tr>
     </table>
