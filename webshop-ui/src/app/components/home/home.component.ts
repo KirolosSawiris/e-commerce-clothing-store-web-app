@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { ApiService } from '../services/api.service';
+import { ApiService } from '../../services/api.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { IProduct } from '../model/iproduct';
+import { IProduct } from '../../model/iproduct';
 import { Router } from '@angular/router';
+import { interval } from 'rxjs';
+
 
 @Component({
   selector: 'app-home',
@@ -22,17 +24,17 @@ throw new Error('Method not implemented.');
   public token: string = '';
   public user: any;
   public logedIn: string = '';
+  public sub: any;
   
 
   constructor(private apiService: ApiService,private router:Router, private sanitizer: DomSanitizer){}
 
   ngOnInit(): void {
     this.getProducts();
-    this.getUser();
+    interval(5000).subscribe(x => {this.getUser();});
     this.username = String(localStorage.getItem("username"));
     this.token = String(localStorage.getItem("access_token"));
     this.logedIn = String(localStorage.getItem("logedIn"));
-
   }
 
   getProducts(){

@@ -19,4 +19,12 @@ export class AppComponent {
       this.isUser = true;
     }
   }
+  LogOut()
+  {
+    localStorage.setItem("logedIn", "false");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("username");
+    this.router.navigate(['home']);
+    window.location.reload();
+  }
 }

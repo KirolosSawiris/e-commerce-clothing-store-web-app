@@ -23,6 +23,10 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+    private String address;
+    private String country;
+    private String region;
+    private String postcode;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
