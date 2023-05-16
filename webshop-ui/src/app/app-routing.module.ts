@@ -20,7 +20,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'user',
+    path: 'profile',
     component: UserProfileComponent
   }
 ];

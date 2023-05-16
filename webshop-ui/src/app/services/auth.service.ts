@@ -8,6 +8,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 export class AuthService {
 
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
+  private user: any;
   isLoggedIn$ = this._isLoggedIn$.asObservable();
 
   constructor(private apiService: ApiService) {
@@ -23,5 +24,15 @@ export class AuthService {
         localStorage.setItem('username', response.username);
       })
     );
+  }
+
+  getUser(){
+      this.apiService.getUser(String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe((res) => {
+      this.user = res;},
+      (error) => {if(!Boolean(error["ok"])){
+        localStorage.clear()
+      }
+    });
+    return this.user;
   }
 }
