@@ -8,15 +8,17 @@ import { CustomerService } from './services/customer.service';
 import { AdminComponent } from './components/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HomeComponent } from './home/home.component';
-import { CommonModule } from '@angular/common';  
+import { HomeComponent } from './components/home/home.component';
+import { CommonModule } from '@angular/common';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';  
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

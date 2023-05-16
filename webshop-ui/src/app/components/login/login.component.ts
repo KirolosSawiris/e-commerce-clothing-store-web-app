@@ -15,11 +15,6 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class LoginComponent {
 
-  public user: any;
-  public token: string = "";
-  public username: string = "";
-  public logedIn: string = "";
-
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required)
@@ -33,33 +28,17 @@ export class LoginComponent {
       password: ''
      })
      
-     this.username = String(localStorage.getItem("username"));
-     this.token = String(localStorage.getItem("access_token"));
-     this.logedIn  = String(localStorage.getItem("logedIn"));
-
-     if(this.logedIn == "true"){
+     if(localStorage.getItem("access_token")){
       this.router.navigate(['home']);
     }
   }
 
-
   submit(){
     this.authService.login(String(this.form.get('username')?.value), String(this.form.get('password')?.value))
     .subscribe(() => {
-      this.username = String(localStorage.getItem("username"));
-      this.token = String(localStorage.getItem("access_token"));
-      console.log(this.username, this.token);
-      this.apiServic.getUser(this.username, this.token).subscribe((res) => {
-        this.user = res;
-        if(String(this.user.username) == this.username){
-          localStorage.setItem("logedIn", "true")
-          this.router.navigate(['home']);
-          window.location.reload();
-        }
-      });
+      this.router.navigate(['home']);
+      window.location.reload();
     });
-    
   }
 
-  
 }
