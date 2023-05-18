@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
       http.authorizeRequests().antMatchers("/login").permitAll();
       http.authorizeRequests().antMatchers(GET,"/api/v1/products").permitAll();
+      http.authorizeRequests().antMatchers(POST, "/api/v1/users/Register").permitAll();
       http.authorizeRequests().antMatchers(GET,"/api/v1/products/download/**").permitAll();
       http.authorizeRequests().antMatchers(GET, "/api/v1/categories").permitAll();
       http.authorizeRequests().antMatchers( "/api/v1/users").hasAuthority("Role_Admin");

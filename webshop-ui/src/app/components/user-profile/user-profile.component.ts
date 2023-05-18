@@ -30,7 +30,7 @@ export class UserProfileComponent {
     postcode: new FormControl()
   })
 
-  constructor(private apiService: ApiService, private router: Router){}
+  constructor(private apiService: ApiService, private router: Router, private authService: AuthService){}
 
   ngOnInit(): void {
     this.getUser();
@@ -50,7 +50,8 @@ export class UserProfileComponent {
   }
 
   submit(){
-
+    this.authService.editUser(this.user);
+    window.location.reload();
   }
 
 }

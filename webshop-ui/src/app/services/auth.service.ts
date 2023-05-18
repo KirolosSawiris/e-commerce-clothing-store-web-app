@@ -35,4 +35,12 @@ export class AuthService {
     });
     return this.user;
   }
+  editUser(user: any){
+    this.apiService.editUser(user, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe((res) => {
+      this.user = res;},
+      (error) => {if(!Boolean(error["ok"])){
+        localStorage.clear()
+      }
+    });
+  }
 }

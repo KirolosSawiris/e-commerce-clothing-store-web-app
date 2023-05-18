@@ -10,7 +10,8 @@ import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
 import { CommonModule } from '@angular/common';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';  
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { RegistrationComponent } from './components/registration/registration.component';  
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     AdminComponent,
     LoginComponent,
     HomeComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

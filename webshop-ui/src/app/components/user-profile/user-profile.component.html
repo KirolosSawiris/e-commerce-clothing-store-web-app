@@ -3,7 +3,7 @@
         <div class="col-md-5 border-right rounded mx-auto bg-white text-black my-3">
             <form class="p-3 py-5" [formGroup]="form" (submit)="submit()">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">{{user.username}}</h4>
+                    <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-6"><label class="labels">Name</label><input formControlName="firstName" type="text" class="form-control" placeholder="first name" [(ngModel)]="user.firstName"></div>

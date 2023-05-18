@@ -36,7 +36,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/Register")
     public User create(@RequestBody final User user){
         return userService.saveUser(user);
     }
@@ -52,4 +52,29 @@ public class UserController {
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
         return requestedUser;
     }
+
+    @PutMapping("/{username}")
+    public User editUser(@RequestBody User newuser, @PathVariable ("username") String requestedUsername, Principal principal){
+        String currentUsername = principal.getName();
+        User currentUser = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + currentUsername));
+        if(!currentUsername.equals(requestedUsername) && !currentUser.getRoles().contains(roleRepository.findRoleByName("Role_Admin"))){
+            throw new AccessDeniedException("cannot access");
+        }
+        User requestedUser = userRepository.findByUsername(requestedUsername).map(user -> {
+            user.setEmail(newuser.getEmail());
+            user.setUsername(newuser.getUsername());
+            user.setFirstName(newuser.getFirstName());
+            user.setLastName(newuser.getLastName());
+            user.setPassword(newuser.getPassword());
+            user.setAddress(newuser.getAddress());
+            user.setCountry(newuser.getCountry());
+            user.setPostcode(newuser.getPostcode());
+            user.setRegion(newuser.getRegion());
+            return userService.saveUser(user);
+                })
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
+        return requestedUser;
+    }
+
 }
