@@ -31,5 +31,8 @@ export class HomeComponent {
     );
   }
 
+  addToCart(product: any){
+    this.authService.addToCart(product);
+  }
   
 }

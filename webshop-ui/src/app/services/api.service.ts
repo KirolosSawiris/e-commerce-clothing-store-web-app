@@ -44,6 +44,18 @@ export class ApiService {
       };
       return this.http.put('/server/api/v1/users/' + username,user, options);
   }
+
+  addToCart(product: any, username: string, token: String){
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+      const body = {
+        product: {id: product.id},
+        quantity: 1
+      } 
+      return this.http.put('/server/api/v1/users/addCartItem/' + username, body, options);
+  }
+
   createUser(firstName: any, lastName: any, username: any, email:any, password: any, address: any, postcode: any, country: any, region: any){
     const user = { 
       firstName: firstName,

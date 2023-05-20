@@ -43,4 +43,7 @@ export class AuthService {
       }
     });
   }
+  addToCart(product: any){
+    this.apiService.addToCart(product, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe(() => {});
+  }
 }

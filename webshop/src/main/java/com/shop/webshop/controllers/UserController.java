@@ -5,6 +5,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.shop.webshop.models.CartItem;
 import com.shop.webshop.models.Role;
 import com.shop.webshop.models.User;
+import com.shop.webshop.repositories.CartItemRepository;
 import com.shop.webshop.repositories.RoleRepository;
 import com.shop.webshop.repositories.UserRepository;
 import com.shop.webshop.service.UserService;
@@ -26,6 +27,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -75,6 +79,19 @@ public class UserController {
                 })
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
         return requestedUser;
+    }
+    @PutMapping("addCartItem/{username}")
+    public void addCartItem(@RequestBody CartItem Item, @PathVariable ("username") String requestedUsername, Principal principal){
+        String currentUsername = principal.getName();
+        User currentUser = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + currentUsername));
+        if(!currentUsername.equals(requestedUsername) && !currentUser.getRoles().contains(roleRepository.findRoleByName("Role_Admin"))){
+            throw new AccessDeniedException("cannot access");
+        }
+        User requestedUser = userRepository.findByUsername(requestedUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
+        Item.setCart(requestedUser.getCart());
+        cartItemRepository.save(Item);
     }
 
 }
