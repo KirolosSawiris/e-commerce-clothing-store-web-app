@@ -50,7 +50,7 @@ export class RegistrationComponent {
     var country = this.form.get('country')?.value;
     console.log(firstName, lastName, username, email, password, address, postcode, region, country);
     
-    this.apiService.createUser(firstName, lastName, username, email, password, address, postcode, region, country).subscribe(data=> {this.user = data;});
+    this.apiService.createUser(firstName, lastName, username, email, password, address, postcode, country,region).subscribe(data=> {this.user = data;});
     this.router.navigate(['login']);
   }
 

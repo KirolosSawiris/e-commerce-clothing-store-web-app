@@ -8,12 +8,14 @@ import com.shop.webshop.models.User;
 import com.shop.webshop.repositories.CartItemRepository;
 import com.shop.webshop.repositories.RoleRepository;
 import com.shop.webshop.repositories.UserRepository;
+import com.shop.webshop.service.CartService;
 import com.shop.webshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -26,7 +28,13 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CartService cartService;
 
     @Autowired
     private CartItemRepository cartItemRepository;
@@ -54,6 +62,7 @@ public class UserController {
         }
         User requestedUser = userRepository.findByUsername(requestedUsername)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
+        requestedUser.setPassword(null);
         return requestedUser;
     }
 
@@ -70,7 +79,15 @@ public class UserController {
             user.setUsername(newuser.getUsername());
             user.setFirstName(newuser.getFirstName());
             user.setLastName(newuser.getLastName());
-            user.setPassword(newuser.getPassword());
+            if(passwordEncoder.matches(newuser.getPassword(), user.getPassword()))
+            {
+                if(newuser.getNewPassword() == null)
+                user.setPassword(newuser.getPassword());
+                else user.setPassword(newuser.getNewPassword());
+            }
+            else {
+                throw new AccessDeniedException("Password not match");
+            }
             user.setAddress(newuser.getAddress());
             user.setCountry(newuser.getCountry());
             user.setPostcode(newuser.getPostcode());
@@ -90,8 +107,20 @@ public class UserController {
         }
         User requestedUser = userRepository.findByUsername(requestedUsername)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
-        Item.setCart(requestedUser.getCart());
-        cartItemRepository.save(Item);
+        cartService.addCartItem(requestedUser.getCart(), Item);
+    }
+
+    @PutMapping("removeCartItem/{username}")
+    public void removeCartItem(@RequestBody CartItem Item, @PathVariable ("username") String requestedUsername, Principal principal){
+        String currentUsername = principal.getName();
+        User currentUser = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + currentUsername));
+        if(!currentUsername.equals(requestedUsername) && !currentUser.getRoles().contains(roleRepository.findRoleByName("Role_Admin"))){
+            throw new AccessDeniedException("cannot access");
+        }
+        User requestedUser = userRepository.findByUsername(requestedUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
+        cartService.removeCartItem(requestedUser.getCart(), Item);
     }
 
 }

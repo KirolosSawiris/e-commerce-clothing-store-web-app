@@ -31,6 +31,7 @@ export class AuthService {
       this.user = res;},
       (error) => {if(!Boolean(error["ok"])){
         localStorage.clear()
+        window.location.reload();
       }
     });
     return this.user;
@@ -39,11 +40,15 @@ export class AuthService {
     this.apiService.editUser(user, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe((res) => {
       this.user = res;},
       (error) => {if(!Boolean(error["ok"])){
-        localStorage.clear()
+        window.location.reload();
       }
     });
   }
-  addToCart(product: any){
-    this.apiService.addToCart(product, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe(() => {});
+  addToCart(product: any, quantity: number){
+    this.apiService.addToCart(product, quantity, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe(() => {});
+  }
+
+  removeFromCart(item: any){
+    this.apiService.removefromCart(item, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe(() => {});
   }
 }

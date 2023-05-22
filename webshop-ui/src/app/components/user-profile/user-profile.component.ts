@@ -13,16 +13,16 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class UserProfileComponent {
 
-  public username: string = '';
-  public token: string = '';
+
   public user: any;
-  public logedIn: string = '';
+  public changePassword: boolean = false;
 
   form = new FormGroup({
     firstName: new FormControl(),
     lastName: new FormControl(),
     username: new FormControl(),
     password: new FormControl(),
+    newPassword: new FormControl(),
     email: new FormControl(),
     address: new FormControl(),
     country: new FormControl(),
@@ -51,7 +51,7 @@ export class UserProfileComponent {
 
   submit(){
     this.authService.editUser(this.user);
-    window.location.reload();
+    setTimeout(()=>{window.location.reload()},500);
   }
 
 }

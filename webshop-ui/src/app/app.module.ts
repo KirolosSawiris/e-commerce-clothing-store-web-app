@@ -11,7 +11,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
 import { CommonModule } from '@angular/common';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { RegistrationComponent } from './components/registration/registration.component';  
+import { RegistrationComponent } from './components/registration/registration.component';
+import { CartComponent } from './components/cart/cart.component';
+import { ProductComponent } from './components/product/product.component';  
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { RegistrationComponent } from './components/registration/registration.co
     LoginComponent,
     HomeComponent,
     UserProfileComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    CartComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,
