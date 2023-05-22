@@ -27,6 +27,8 @@ public class User {
     private String country;
     private String region;
     private String postcode;
+    @Transient
+    private  String newPassword;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
@@ -87,6 +89,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     public List<Order> getOrders() {

@@ -24,6 +24,8 @@ public class CartItem {
     private Product product;
     private int quantity;
 
+    CartItem(){}
+
     public CartItem(Cart cart, Product product, int quantity) {
         this.cart = cart;
         this.product = product;

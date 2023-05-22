@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,8 @@ public class Cart {
     @JsonIgnore
     private User user;
 
+    private int cartTotal;
+
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
 
@@ -27,6 +30,7 @@ public class Cart {
     public Cart (User user)
     {
         this.user = user;
+        this.cartItems = new ArrayList<>();
     }
 
     public Long getId() {
@@ -49,8 +53,19 @@ public class Cart {
         return cartItems;
     }
 
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
+    public void addCartItems(CartItem cartItems) {
+        this.cartItems.add(cartItems);
+    }
+    public void removeCartItem(CartItem cartItem){
+        this.cartItems.remove(cartItem);
+    }
+
+    public int getCartTotal() {
+        return cartTotal;
+    }
+
+    public void setCartTotal(int cartTotal) {
+        this.cartTotal = cartTotal;
     }
 
 }

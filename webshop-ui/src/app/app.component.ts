@@ -16,6 +16,7 @@ export class AppComponent {
   public logedIn: boolean = false;
   public user: any;
   public ItemsNum: any = localStorage.getItem('cartElms');
+  public filterTerm: string = "";
 
   constructor(private router: Router, private authService: AuthService){}
 
@@ -24,6 +25,7 @@ export class AppComponent {
       this.logedIn = true;
       interval(500).subscribe(x => {this.getUserCartItemsNumber();});
     }
+    else{this.logedIn= false}
   }
 
   LogOut()
@@ -39,5 +41,19 @@ export class AppComponent {
     this.ItemsNum = this.user['cart']['cartItems']['length'];
     localStorage.setItem("cartElms", this.user['cart']['cartItems']['length']);
     }
+  }
+
+  filter(){
+    if(this.filterTerm != ""){this.router.navigate(['home/search',this.filterTerm]);}
+    else{this.router.navigate(['home']);}
+  }
+
+  async refresh(){
+    let func = await this.filter();
+    window.location.reload();
+  }
+  search(){
+    this.filter();
+    this.refresh();
   }
 }
