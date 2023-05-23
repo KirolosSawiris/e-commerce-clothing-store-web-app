@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerService } from 'src/app/services/customer.service';
 import { LoginComponent } from '../login/login.component';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -16,9 +15,7 @@ export class AdminComponent implements OnInit{
   ngOnInit(): void {this.getProducts()}
 
   getProducts(){
-    this.apiService.getProducts().subscribe(
-      data => {this.products = data}
-    );
+
   }
 
 }

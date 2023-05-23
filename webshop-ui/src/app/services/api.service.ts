@@ -10,6 +10,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
+  //set the body of the login request then send it to the api for checking.
   login(username: string, password: string) {
 
     let body = new URLSearchParams();
@@ -22,20 +23,25 @@ export class ApiService {
       return this.http.post('/server/login', body.toString(), options);
   }
 
-  getProducts(): Observable<IProduct[]>{
-    return this.http.get<IProduct[]>('/server/api/v1/products');
+  async getProducts(){
+    const res = await this.http.get<IProduct[]>('/server/api/v1/products').toPromise();
+    console.log("apiproduct", res);
+    return res;
   }
 
-  getProductById(id: any){
-    return this.http.get('/server/api/v1/products/' + String(id));
+  async getProductById(id: any){
+    const res = await this.http.get('/server/api/v1/products/' + String(id)).toPromise();
+    return res;
   }
 
-  getUser(username: string, token: String){
+  //send a get request but first add the token to the Authorization header to authenticate.
+  async getUser(username: string, token: String){
 
     let options = {
       headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
       };
-      return this.http.get('/server/api/v1/users/' + username, options);
+      const res = await this.http.get('/server/api/v1/users/' + username, options).toPromise();      
+      return res;
   }
 
   editUser(user: any, username: string, token: String){
@@ -45,6 +51,7 @@ export class ApiService {
       return this.http.put('/server/api/v1/users/' + username,user, options);
   }
 
+  //add the product with a quantity to the user cart.
   addToCart(product: any,quantity: number, username: string, token: String){
     let options = {
       headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
@@ -56,7 +63,7 @@ export class ApiService {
       } 
       return this.http.put('/server/api/v1/users/addCartItem/' + username, body, options);
   }
-
+  //remove cart item from cart
   removefromCart(item: any, username: string, token: String){
     let options = {
       headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)

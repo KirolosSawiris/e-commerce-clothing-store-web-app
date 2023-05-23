@@ -4,7 +4,6 @@ import { HttpClientModule } from'@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CustomerService } from './services/customer.service';
 import { AdminComponent } from './components/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +33,7 @@ import { ProductComponent } from './components/product/product.component';
     ReactiveFormsModule,
     CommonModule
   ],
-  providers: [CustomerService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -15,6 +15,7 @@ export class CartComponent {
 
   constructor(private apiService: ApiService, private router: Router, private authService: AuthService){}
 
+  //check if the token exist, if not then the user need to login first
   ngOnInit(): void {
     this.getUser();
     if(!localStorage.getItem("access_token")){
@@ -22,16 +23,10 @@ export class CartComponent {
     }
   }
 
-
-  getUser(){
-    this.apiService.getUser(String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe((res) => {
-      this.user = res;
-      this.cartItems = this.user.cart.cartItems;
-    },
-      (error) => {if(!Boolean(error["ok"])){
-        localStorage.clear();
-      }
-    });
+  //get the user from the authService then assign its cartItem to the cartItem property.
+  async getUser(){
+    this.user = await this.authService.getUser();
+    this.cartItems = this.user.cart.cartItems;
   }
 
   removeCartItem(item: any){

@@ -16,6 +16,7 @@ export class AuthService {
     this._isLoggedIn$.next(!!token);
   }
 
+  //pass the username and the password to the apiService if it returned the token then save in the localStorge.
   login(username: string, password: string) {
     return this.apiService.login(username, password).pipe(
       tap((response: any) => {
@@ -26,14 +27,15 @@ export class AuthService {
     );
   }
 
-  getUser(){
-      this.apiService.getUser(String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe((res) => {
-      this.user = res;},
-      (error) => {if(!Boolean(error["ok"])){
+  //pass the token and the user name to the apiService to make the get request if it faild then clear the storge.
+  async getUser(){
+    try{
+      this.user= await this.apiService.getUser(String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
+    }
+      catch(error){
         localStorage.clear()
         window.location.reload();
-      }
-    });
+      }      
     return this.user;
   }
   editUser(user: any){

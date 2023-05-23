@@ -38,6 +38,7 @@ export class RegistrationComponent {
   }
 
 
+  //submit to create new user
   submit(){
     var firstName = this.form.get('firstName')?.value;
     var lastName = this.form.get('lastName')?.value;
@@ -49,7 +50,7 @@ export class RegistrationComponent {
     var region = this.form.get('region')?.value;
     var country = this.form.get('country')?.value;
     console.log(firstName, lastName, username, email, password, address, postcode, region, country);
-    
+    //creat the user by passing the vars to the apiService function.
     this.apiService.createUser(firstName, lastName, username, email, password, address, postcode, country,region).subscribe(data=> {this.user = data;});
     this.router.navigate(['login']);
   }

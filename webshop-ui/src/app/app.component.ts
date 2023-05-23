@@ -20,6 +20,8 @@ export class AppComponent {
 
   constructor(private router: Router, private authService: AuthService){}
 
+  //check if the token exists which means the user logged in and send a get request every half a second
+  //if it faild to get once then the token expired or became invalid so it kicks the user out.
   ngOnInit(){
     if(localStorage.getItem("access_token")){
       this.logedIn = true;
@@ -28,6 +30,7 @@ export class AppComponent {
     else{this.logedIn= false}
   }
 
+  //clear the localstorge will delete the token hence the get request will fail then it will logout the user.
   LogOut()
   {
     localStorage.clear();
@@ -35,8 +38,9 @@ export class AppComponent {
     window.location.reload();
   }
 
-  getUserCartItemsNumber(){
-    this.user= this.authService.getUser();
+  //this method to get the number of cart item to show it on the nav bar.
+  async getUserCartItemsNumber(){
+    this.user= await this.authService.getUser();
     if(this.user){
     this.ItemsNum = this.user['cart']['cartItems']['length'];
     localStorage.setItem("cartElms", this.user['cart']['cartItems']['length']);
