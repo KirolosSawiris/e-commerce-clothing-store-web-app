@@ -20,10 +20,8 @@ export class ProductComponent {
     this.getProduct(productId);
   }
 
-  getProduct(id: any){
-    this.apiService.getProductById(id).subscribe((res) => {
-      this.product = res;
-    })
+  async getProduct(id: any){
+    this.product = await this.apiService.getProductById(id);
   }
 
   addToCart(product: any, quantity: number){

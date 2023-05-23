@@ -40,15 +40,11 @@ export class UserProfileComponent {
   }
 
 
-  getUser(){
-    this.apiService.getUser(String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe((res) => {
-      this.user = res;},
-      (error) => {if(!Boolean(error["ok"])){
-        localStorage.clear();
-      }
-    });
+  async getUser(){
+    this.user = await this.authService.getUser();
   }
 
+  //submit and edit the user and then wait half a second and refresh to make sure that the changes has been saved in the database.
   submit(){
     this.authService.editUser(this.user);
     setTimeout(()=>{window.location.reload()},500);
