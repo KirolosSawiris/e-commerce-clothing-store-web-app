@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { BehaviorSubject, tap } from 'rxjs';
-
+import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ReturnStatement } from '@angular/compiler';
+import { Title } from '@angular/platform-browser';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +26,14 @@ export class AuthService {
         this._isLoggedIn$.next(true);
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('username', response.username);
+      }), catchError((error: HttpErrorResponse)=> {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Incorrect username or password',
+          confirmButtonColor: '#212529'
+        });
+        return throwError(()=> new Error('wrong username or password'));
       })
     );
   }
@@ -40,14 +51,34 @@ export class AuthService {
   }
   editUser(user: any){
     this.apiService.editUser(user, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe((res) => {
+      Swal.fire({
+        icon:'success',
+        title: 'Saved',
+        text: 'Your profile has been updated successfuly',
+        confirmButtonColor: '#212529'
+      }).then(()=> window.location.reload());
       this.user = res;},
       (error) => {if(!Boolean(error["ok"])){
-        window.location.reload();
+        Swal.fire({
+          icon: 'error',
+          title: 'Wrong passord',
+          text: 'Enter your password and try again',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#212529'
+        }).then(()=> window.location.reload())
       }
     });
   }
   addToCart(product: any, quantity: number){
-    this.apiService.addToCart(product, quantity, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe(() => {});
+    this.apiService.addToCart(product, quantity, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).pipe(catchError((error: HttpErrorResponse)=> {
+      Swal.fire({
+        icon: 'info',
+        title: 'You are not logged in',
+        text: 'Please login to add this item to your cart',
+        confirmButtonColor: '#212529'
+      });
+      return throwError(()=> new Error('wrong username or password'));
+    })).subscribe(() => {});
   }
 
   removeFromCart(item: any){

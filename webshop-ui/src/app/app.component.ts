@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';  
 import { BrowserModule } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { interval } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -16,13 +17,18 @@ export class AppComponent {
   public logedIn: boolean = false;
   public user: any;
   public ItemsNum: any = localStorage.getItem('cartElms');
-  public filterTerm: string = "";
+  public searchTerm: any;
 
-  constructor(private router: Router, private authService: AuthService){}
+  form = new FormGroup({
+    searchTerm: new FormControl('')
+  })
+
+  constructor(private router: Router,private arouter:ActivatedRoute, private authService: AuthService){}
 
   //check if the token exists which means the user logged in and send a get request every half a second
   //if it faild to get once then the token expired or became invalid so it kicks the user out.
   ngOnInit(){
+    this.searchTerm = this.arouter.snapshot.paramMap.get('serchTerm')?.toLowerCase() || "";
     if(localStorage.getItem("access_token")){
       this.logedIn = true;
       interval(500).subscribe(x => {this.getUserCartItemsNumber();});
@@ -48,7 +54,8 @@ export class AppComponent {
   }
 
   filter(){
-    if(this.filterTerm != ""){this.router.navigate(['home/search',this.filterTerm]);}
+    this.searchTerm = String(this.form.get('searchTerm')?.value)
+    if(this.searchTerm != ""){this.router.navigate(['home/search', this.searchTerm]);}
     else{this.router.navigate(['home']);}
   }
 

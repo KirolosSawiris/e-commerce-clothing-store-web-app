@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ProductComponent {
   
   public product: any;
+  
   public quantity: number = 1;
 
   constructor(private apiService: ApiService, private router: ActivatedRoute, private authService: AuthService){}
