@@ -35,11 +35,15 @@ public class WebshopApplication {
 //			Role role1 = new Role("Role_Admin");
 //			roleRepository.saveAndFlush(role1);
 //			User user1= new User();
-//			user1.setUsername("kirolossawiris");
+//			user1.setUsername("kirosawiris");
 //			user1.setPassword("1234");
-//			user1.setEmail("kirolossawiris@gmail.com");
+//			user1.setEmail("kirosawiris@gmail.com");
 //			user1.setFirstName("kirolos");
 //			user1.setLastName("sawiris");
+//			user1.setAddress("street");
+//			user1.setPostcode("1114");
+//			user1.setCountry("Hungary");
+//			user1.setRegion("Budapest");
 //			List<Role> roles = new ArrayList<>();
 //			roles.add(role1);
 //			user1.setRoles(roles);
@@ -53,6 +57,10 @@ public class WebshopApplication {
 //			user2.setEmail("kikosawiris@gmail.com");
 //			user2.setFirstName("kiko");
 //			user2.setLastName("Sawiris");
+//			user2.setAddress("street");
+//			user2.setPostcode("1114");
+//			user2.setCountry("Hungary");
+//			user2.setRegion("Budapest");
 //			List<Role> roles2 = new ArrayList<>();
 //			roles2.add(role2);
 //			user2.setRoles(roles2);
