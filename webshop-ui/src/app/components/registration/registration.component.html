@@ -1,24 +1,24 @@
 <div class="container bg-dark rounded">
     <div class="row mb-3">
         <div class="col-md-5 border-right rounded mx-auto bg-white text-black my-3">
-            <form class="p-3 py-5" [formGroup]="form" (submit)="submit()">
+            <form class="p-3 py-5 needs-validation" [formGroup]="form" (submit)="submit()" novalidate>
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Register</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input formControlName="firstName" type="text" class="form-control" placeholder="first name"></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input formControlName="lastName" type="text" class="form-control" placeholder="surname"></div>
+                    <div class="col-md-6"><label class="labels">Name</label><input [ngClass]="{'is-invalid': validate('firstName')}" formControlName="firstName" type="text" class="form-control" placeholder="first name" required></div>
+                    <div class="col-md-6"><label class="labels">Surname</label><input [ngClass]="{'is-invalid': validate('lastName')}" formControlName="lastName" type="text" class="form-control" placeholder="surname" required></div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Username</label><input formControlName="username" type="text" class="form-control" placeholder="enter username"></div>
-                    <div class="col-md-12"><label class="labels">Address Line</label><input formControlName="address" type="text" class="form-control" placeholder="enter address"></div>
-                    <div class="col-md-12"><label class="labels">Postcode</label><input formControlName="postcode" type="text" class="form-control" placeholder="enter postcode"></div>
-                    <div class="col-md-12"><label class="labels">Email</label><input formControlName="email" type="text" class="form-control" placeholder="enter email"></div>
-                    <div class="col-md-12"><label class="labels">Password</label><input formControlName="password" type="password" class="form-control" placeholder="password"></div>
+                    <div class="col-md-12"><label class="labels">Username</label><input [ngClass]="{'is-invalid': validate('username')}" formControlName="username" type="text" class="form-control" placeholder="enter username" required></div>
+                    <div class="col-md-12"><label class="labels">Address Line</label><input [ngClass]="{'is-invalid': validate('address')}" formControlName="address" type="text" class="form-control" placeholder="enter address" required></div>
+                    <div class="col-md-12"><label class="labels">Postcode</label><input [ngClass]="{'is-invalid': validate('postcode')}" formControlName="postcode" type="text" class="form-control" placeholder="enter postcode" required></div>
+                    <div class="col-md-12"><label class="labels">Email</label><input [ngClass]="{'is-invalid': validate('email')}" formControlName="email" type="text" class="form-control" placeholder="enter email" required></div>
+                    <div class="col-md-12"><label class="labels">Password</label><input [ngClass]="{'is-invalid': validate('password')}" formControlName="password" type="password" class="form-control" placeholder="password" required></div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Country</label><input formControlName="country" type="text" class="form-control" placeholder="country"></div>
-                    <div class="col-md-6"><label class="labels">State/Region</label><input formControlName="region" type="text" class="form-control" placeholder="state"></div>
+                    <div class="col-md-6"><label class="labels">Country</label><input [ngClass]="{'is-invalid': validate('country')}" formControlName="country" type="text" class="form-control" placeholder="country" required></div>
+                    <div class="col-md-6"><label class="labels">State/Region</label><input [ngClass]="{'is-invalid': validate('region')}" formControlName="region" type="text" class="form-control" placeholder="state"required></div>
                 </div>
                 <div class="mt-5 text-center"><button class="btn btn-secondary" type="submit">Create Profile</button></div>
             </form>

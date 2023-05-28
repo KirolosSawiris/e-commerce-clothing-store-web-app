@@ -1,9 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, map } from 'rxjs';
 import { Router } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -18,7 +15,6 @@ export class LoginComponent {
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required)
   })
-
   constructor(private authService:AuthService, private apiServic: ApiService, private router: Router, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
