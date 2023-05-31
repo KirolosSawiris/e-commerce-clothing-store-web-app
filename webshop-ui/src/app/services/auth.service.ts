@@ -49,25 +49,24 @@ export class AuthService {
       }      
     return this.user;
   }
-  editUser(user: any){
-    this.apiService.editUser(user, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe((res) => {
-      Swal.fire({
-        icon:'success',
-        title: 'Saved',
-        text: 'Your profile has been updated successfuly',
-        confirmButtonColor: '#212529'
-      }).then(()=> window.location.reload());
-      this.user = res;},
-      (error) => {if(!Boolean(error["ok"])){
+  async editUser(user: any){
+    try{
+      this.user = await this.apiService.editUser(user, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
+        Swal.fire({
+          icon:'success',
+          title: 'Saved',
+          text: 'Your profile has been updated successfuly',
+          confirmButtonColor: '#212529'
+        }).then(()=> window.location.reload());
+    }catch(error) {
         Swal.fire({
           icon: 'error',
           title: 'Wrong passord',
           text: 'Enter your password and try again',
           confirmButtonText: 'OK',
           confirmButtonColor: '#212529'
-        }).then(()=> window.location.reload())
+        }).then(()=> window.location.reload());
       }
-    });
   }
   addToCart(product: any, quantity: number){
     this.apiService.addToCart(product, quantity, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).pipe(catchError((error: HttpErrorResponse)=> {
@@ -81,7 +80,8 @@ export class AuthService {
     })).subscribe(() => {});
   }
 
-  removeFromCart(item: any){
-    this.apiService.removefromCart(item, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).subscribe(() => {});
+  async removeFromCart(item: any){
+    const res = await this.apiService.removefromCart(item, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
+    return res
   }
 }

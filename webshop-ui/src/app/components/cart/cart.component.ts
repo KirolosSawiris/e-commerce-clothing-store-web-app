@@ -29,8 +29,8 @@ export class CartComponent {
     this.cartItems = this.user.cart.cartItems;
   }
 
-  removeCartItem(item: any){
-    this.authService.removeFromCart(item);
+  async removeCartItem(item: any){
+    const func = await this.authService.removeFromCart(item);
     window.location.reload();
   }
 
