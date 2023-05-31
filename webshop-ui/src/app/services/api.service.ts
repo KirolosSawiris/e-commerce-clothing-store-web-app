@@ -44,11 +44,12 @@ export class ApiService {
       return res;
   }
 
-  editUser(user: any, username: string, token: String){
+  async editUser(user: any, username: string, token: String){
     let options = {
       headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
       };
-      return this.http.put('/server/api/v1/users/' + username,user, options);
+      const res = await this.http.put('/server/api/v1/users/' + username,user, options).toPromise();
+      return res
   }
 
   //add the product with a quantity to the user cart.
@@ -64,11 +65,12 @@ export class ApiService {
       return this.http.put('/server/api/v1/users/addCartItem/' + username, body, options);
   }
   //remove cart item from cart
-  removefromCart(item: any, username: string, token: String){
+  async removefromCart(item: any, username: string, token: String){
     let options = {
       headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
       };
-      return this.http.put('/server/api/v1/users/removeCartItem/' + username, item, options);
+      const res = await this.http.put('/server/api/v1/users/removeCartItem/' + username, item, options).toPromise();
+      return res
   }
 
   createUser(firstName: any, lastName: any, username: any, email:any, password: any, address: any, postcode: any, country: any, region: any){
