@@ -43,8 +43,12 @@
                             </div>
                         </div><!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><button (click)="addToCart(product)"
-                                    class="btn btn-outline-dark mt-auto" href="#">Add to cart</button></div>
+                            <div class="text-center">
+                                <button *ngIf="!favorit(product)" class="btn btn-outline-dark mx-2 bi bi-suit-heart"></button>
+                                <button *ngIf="favorit(product)" class="btn btn-outline-dark mx-2 bi bi-suit-heart-fill"></button>
+                                <button (click)="addToCart(product)"
+                                    class="btn btn-outline-dark mt-auto" href="#">Add to cart</button>
+                                </div>
                         </div>
                     </div>
                 </div>

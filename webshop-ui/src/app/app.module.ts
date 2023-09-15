@@ -12,7 +12,14 @@ import { CommonModule } from '@angular/common';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { CartComponent } from './components/cart/cart.component';
-import { ProductComponent } from './components/product/product.component';  
+import { ProductComponent } from './components/product/product.component';
+import { MatAutocompleteModule} from '@angular/material/autocomplete'
+import {MatInputModule} from '@angular/material/input'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MatFormFieldModule } from "@angular/material/form-field";
+import {MatListModule} from '@angular/material/list';
+
+
 
 @NgModule({
   declarations: [
@@ -31,7 +38,12 @@ import { ProductComponent } from './components/product/product.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

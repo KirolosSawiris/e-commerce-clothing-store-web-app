@@ -43,9 +43,24 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
+    @ManyToMany
+    @JoinTable(
+            name = "favorite_products",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> favoriteProducts;
+
     public User()
     {
         this.cart = new Cart(this);
+    }
+
+    public List<Product> getFavoriteProducts() {
+        return favoriteProducts;
+    }
+
+    public void setFavoriteProducts(List<Product> favoriteProducts) {
+        this.favoriteProducts = favoriteProducts;
     }
 
     public Long getId() {

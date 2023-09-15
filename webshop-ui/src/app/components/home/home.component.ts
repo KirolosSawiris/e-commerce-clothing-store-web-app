@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IProduct } from '../../model/iproduct';
+import {IUser} from '../../model/iUser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { FilterService } from 'src/app/services/filter.service';
@@ -23,7 +24,13 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.searchTerm = this.arouter.snapshot.paramMap.get('serchTerm')?.toLowerCase() || "";
+    localStorage.setItem('searchText', this.searchTerm);
+    if(localStorage.getItem('username') != null){
+      this.user = this.authService.getUser();
+    }
+    
     this.getProducts();
+    
   }
 
   //get the products then apply the filter service to filter if the user used the search bar.
@@ -32,12 +39,24 @@ export class HomeComponent {
     this.products = this.filterService.filterBySearch(this.products,this.searchTerm)    
   }
 
+
   addToCart(product: any){
     this.authService.addToCart(product, 1);
   }
 
   viewProduct(product: any){
     this.router.navigate(['product', product.id]);
+  }
+
+  favorit(product: any): boolean{
+    
+    //console.log(this.user.__zone_symbol__value.favoriteProducts.length)
+    for(let i = 0; i < this.user.__zone_symbol__value.favoriteProducts.length; i++){
+      if(this.user.__zone_symbol__value.favoriteProducts[i].id == product.id ){
+        return true;
+      }
+    }
+    return false;
   }
 
 }

@@ -3,12 +3,15 @@ package com.shop.webshop.controllers;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.shop.webshop.models.CartItem;
+import com.shop.webshop.models.Product;
 import com.shop.webshop.models.Role;
 import com.shop.webshop.models.User;
 import com.shop.webshop.repositories.CartItemRepository;
+import com.shop.webshop.repositories.ProductRepository;
 import com.shop.webshop.repositories.RoleRepository;
 import com.shop.webshop.repositories.UserRepository;
 import com.shop.webshop.service.CartService;
+import com.shop.webshop.service.ProductService;
 import com.shop.webshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -32,6 +35,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ProductService productService;
 
     @Autowired
     private CartService cartService;
@@ -66,8 +72,8 @@ public class UserController {
         return requestedUser;
     }
 
-    @PutMapping("/{username}")
-    public User editUser(@RequestBody User newuser, @PathVariable ("username") String requestedUsername, Principal principal){
+    @PutMapping("changePassword/{username}")
+    public User editUserPassword(@RequestBody User newuser, @PathVariable ("username") String requestedUsername, Principal principal){
         String currentUsername = principal.getName();
         User currentUser = userRepository.findByUsername(currentUsername)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + currentUsername));
@@ -75,10 +81,6 @@ public class UserController {
             throw new AccessDeniedException("cannot access");
         }
         User requestedUser = userRepository.findByUsername(requestedUsername).map(user -> {
-            user.setEmail(newuser.getEmail());
-            user.setUsername(newuser.getUsername());
-            user.setFirstName(newuser.getFirstName());
-            user.setLastName(newuser.getLastName());
             if(passwordEncoder.matches(newuser.getPassword(), user.getPassword()))
             {
                 if(newuser.getNewPassword() == null)
@@ -88,14 +90,21 @@ public class UserController {
             else {
                 throw new AccessDeniedException("Password not match");
             }
-            user.setAddress(newuser.getAddress());
-            user.setCountry(newuser.getCountry());
-            user.setPostcode(newuser.getPostcode());
-            user.setRegion(newuser.getRegion());
             return userService.saveUser(user);
                 })
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
         return requestedUser;
+    }
+
+    @PutMapping("/{username}")
+    public void editUser(@RequestBody User newuser, @PathVariable ("username") String requestedUsername, Principal principal){
+        String currentUsername = principal.getName();
+        User currentUser = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + currentUsername));
+        if(!currentUsername.equals(requestedUsername) && !currentUser.getRoles().contains(roleRepository.findRoleByName("Role_Admin"))){
+            throw new AccessDeniedException("cannot access");
+        }
+        userRepository.SaveWithoutPassword(newuser.getEmail(), newuser.getFirstName(), newuser.getLastName(), newuser.getAddress(), newuser.getCountry(), newuser.getPostcode(), newuser.getRegion(), requestedUsername);
     }
     @PutMapping("addCartItem/{username}")
     public void addCartItem(@RequestBody CartItem Item, @PathVariable ("username") String requestedUsername, Principal principal){
@@ -121,6 +130,32 @@ public class UserController {
         User requestedUser = userRepository.findByUsername(requestedUsername)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
         cartService.removeCartItem(requestedUser.getCart(), Item);
+    }
+
+    @PutMapping("addFavourite/{username}")
+    public void addFavourite(@RequestBody Product product, @PathVariable ("username") String requestedUsername, Principal principal){
+        String currentUsername = principal.getName();
+        User currentUser = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + currentUsername));
+        if(!currentUsername.equals(requestedUsername) && !currentUser.getRoles().contains(roleRepository.findRoleByName("Role_Admin"))){
+            throw new AccessDeniedException("cannot access");
+        }
+        User requestedUser = userRepository.findByUsername(requestedUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
+        userRepository.addFavorite(requestedUser.getId(), product.getId());
+    }
+
+    @PutMapping("removeFavourite/{username}")
+    public void removeFavourite(@RequestBody Product product, @PathVariable ("username") String requestedUsername, Principal principal) {
+        String currentUsername = principal.getName();
+        User currentUser = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + currentUsername));
+        if (!currentUsername.equals(requestedUsername) && !currentUser.getRoles().contains(roleRepository.findRoleByName("Role_Admin"))) {
+            throw new AccessDeniedException("cannot access");
+        }
+        User requestedUser = userRepository.findByUsername(requestedUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
+        userRepository.removeFavorite(requestedUser.getId(), product.getId());
     }
 
 }

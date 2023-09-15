@@ -33,6 +33,18 @@ public class Product {
     @JsonIgnore
     private List<CartItem> cartItems;
 
+    @ManyToMany(mappedBy = "favoriteProducts")
+    @JsonIgnore
+    private List<User> favorits;
+
+    public List<User> getFavorits() {
+        return favorits;
+    }
+
+    public void setFavorits(List<User> favorits) {
+        this.favorits = favorits;
+    }
+
     public Category getCategory() {
         return category;
     }

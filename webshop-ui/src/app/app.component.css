@@ -1,0 +1,22 @@
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .uloption {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1;
+    background-color: white;
+  }
+  
+  .lioption {
+    padding: 8px;
+    cursor: pointer;
+    width: 380px;
+  }
