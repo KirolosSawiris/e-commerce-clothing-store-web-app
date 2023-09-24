@@ -1,4 +1,20 @@
-.labels {
-    font-size: 11px
+
+.card {
+    font-size: 18px;
+    margin-bottom: 10px;
+    margin-top: 20px; /* Increased margin at the bottom of each card */
 }
 
+.card-title {
+    font-size: 24px;
+    margin-bottom: 20px; /* Increased margin at the bottom of each title */
+}
+
+.list-group-item {
+    padding: 15px; /* Increased padding around each list item */
+}
+
+/* Add space below the entire user info section */
+.user-info-section {
+    margin-bottom: 30px;
+}

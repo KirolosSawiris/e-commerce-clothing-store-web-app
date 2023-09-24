@@ -8,16 +8,12 @@
     <meta name="author" content="">
     <title>Shop Homepage</title>
     <link rel="icon" type="image/x-icon" href="">
-    </head>
+</head>
 
 <body>
-    <header class="bg-dark py-5">
-        <div class="container text-center text-white">
-            <h1 class="display-4 fw-bolder">Welcome to our Shirts Shop</h1>
-            <p class="lead fw-normal text-white-50 mb-0">Where Convenience Meets Style</p>
-        </div>
-    </header>
-    <section class="py-5 bigcard">
+    <section class="py-3 bg-dark">
+        <h1 class="text-center my-3 text-white"> Saved Products</h1>
+        <div class = "bigcard rounded mx-5 my-4 pt-2">
         <div class="container mt-5">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
                 <!-- Use Bootstrap grid classes for responsiveness -->
@@ -36,14 +32,14 @@
                             <p class="product-price">{{product.price}}$</p>
                         </div>
                         <div class="product-actions mb-3">
-                            <button *ngIf="!favorit(product)" (click)="addToFav(product)" class="btn btn btn-outline-dark  bi bi-suit-heart"></button>
-                            <button *ngIf="favorit(product)" (click)="removeFav(product)" class="btn btn btn-outline-dark  bi bi-suit-heart-fill"></button>
+                            <button (click)="removeFav(product)" class="btn btn btn-outline-dark  bi bi-suit-heart-fill"></button>
                             <button (click)="addToCart(product)" class="btn btn btn-outline-dark mx-2 bi bi-cart"> Cart</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </section>
 </body>
 

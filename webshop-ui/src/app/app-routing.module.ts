@@ -8,6 +8,9 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { RegistrationComponent } from './components/registration/registration.component';
 import { CartComponent } from './components/cart/cart.component';
 import { ProductComponent } from './components/product/product.component';
+import { SavedComponent } from './components/saved/saved.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -40,6 +43,18 @@ const routes: Routes = [
   {
     path: 'home/search/:serchTerm',
     component: HomeComponent
+  },
+  {
+    path: 'saved',
+    component: SavedComponent
+  },
+  {
+    path: 'editProfile',
+    component: EditProfileComponent
+  },
+  {
+    path: 'changePassword',
+    component: ChangePasswordComponent
   }
 ];
 

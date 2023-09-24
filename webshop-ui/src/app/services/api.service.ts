@@ -52,6 +52,14 @@ export class ApiService {
       return res
   }
 
+  async changeUserPassword(user: any, username: string, token: String){
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+      const res = await this.http.put('/server/api/v1/users/changePassword/' + username,user, options).toPromise();
+      return res
+  }
+
   //add the product with a quantity to the user cart.
   addToCart(product: any,quantity: number, username: string, token: String){
     let options = {
@@ -71,6 +79,26 @@ export class ApiService {
       };
       const res = await this.http.put('/server/api/v1/users/removeCartItem/' + username, item, options).toPromise();
       return res
+  }
+
+  addToFav(product: any, username: string, token: String){
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+      const body = {
+        id: product.id
+      } 
+      return this.http.put('/server/api/v1/users/addFavourite/' + username, body, options);
+  }
+
+  removeFav(product: any, username: string, token: String){
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+      const body = {
+        id: product.id
+      } 
+      return this.http.put('/server/api/v1/users/removeFavourite/' + username, body, options);
   }
 
   createUser(firstName: any, lastName: any, username: any, email:any, password: any, address: any, postcode: any, country: any, region: any){

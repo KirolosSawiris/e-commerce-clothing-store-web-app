@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ReturnStatement } from '@angular/compiler';
 import { Title } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,9 +13,10 @@ export class AuthService {
 
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   private user: any;
+  private products: any;
   isLoggedIn$ = this._isLoggedIn$.asObservable();
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private toastr: ToastrService) {
     const token = localStorage.getItem('profanis_auth');
     this._isLoggedIn$.next(!!token);
   }
@@ -49,6 +51,8 @@ export class AuthService {
       }      
     return this.user;
   }
+
+
   async editUser(user: any){
     try{
       this.user = await this.apiService.editUser(user, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
@@ -56,6 +60,26 @@ export class AuthService {
           icon:'success',
           title: 'Saved',
           text: 'Your profile has been updated successfuly',
+          confirmButtonColor: '#212529'
+        }).then(()=> window.location.reload());
+    }catch(error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'something went wrong',
+          text: 'Please try again',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#212529'
+        }).then(()=> window.location.reload());
+      }
+  }
+
+  async changeUserPassword(user: any){
+    try{
+      this.user = await this.apiService.changeUserPassword(user, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
+        Swal.fire({
+          icon:'success',
+          title: 'Saved',
+          text: 'Password has been updated successfuly',
           confirmButtonColor: '#212529'
         }).then(()=> window.location.reload());
     }catch(error) {
@@ -77,7 +101,31 @@ export class AuthService {
         confirmButtonColor: '#212529'
       });
       return throwError(()=> new Error('wrong username or password'));
-    })).subscribe(() => {});
+    })).subscribe(() => {this.toastr.success('Added to Cart successfully');});
+  }
+
+  addToFav(product: any){
+    this.apiService.addToFav(product, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).pipe(catchError((error: HttpErrorResponse)=> {
+      Swal.fire({
+        icon: 'info',
+        title: 'You are not logged in',
+        text: 'Please login to add this item to your Favourites',
+        confirmButtonColor: '#212529'
+      });
+      return throwError(()=> new Error('wrong username or password'));
+    })).subscribe(() => {this.toastr.success('Added successfully');});
+  }
+
+  removeFav(product: any){
+    this.apiService.removeFav(product, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).pipe(catchError((error: HttpErrorResponse)=> {
+      Swal.fire({
+        icon: 'info',
+        title: 'You are not logged in',
+        text: 'Please login to add this item to your cart',
+        confirmButtonColor: '#212529'
+      });
+      return throwError(()=> new Error('wrong username or password'));
+    })).subscribe(() => {this.toastr.success('Removed successfully');});
   }
 
   async removeFromCart(item: any){

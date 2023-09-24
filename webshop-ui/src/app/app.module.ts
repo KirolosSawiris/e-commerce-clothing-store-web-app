@@ -18,6 +18,10 @@ import {MatInputModule} from '@angular/material/input'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatFormFieldModule } from "@angular/material/form-field";
 import {MatListModule} from '@angular/material/list';
+import {ToastrModule} from 'ngx-toastr';
+import { SavedComponent } from './components/saved/saved.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component'
 
 
 
@@ -30,7 +34,10 @@ import {MatListModule} from '@angular/material/list';
     UserProfileComponent,
     RegistrationComponent,
     CartComponent,
-    ProductComponent
+    ProductComponent,
+    SavedComponent,
+    EditProfileComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +50,10 @@ import {MatListModule} from '@angular/material/list';
     MatInputModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
-    MatListModule
+    MatListModule,
+    ToastrModule.forRoot({
+      positionClass: "toast-bottom-right"
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

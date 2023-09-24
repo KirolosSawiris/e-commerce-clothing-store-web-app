@@ -27,7 +27,7 @@
                         <h6>Size: {{product.size}}</h6>
                         <p class="lead">{{product.description}}</p>
                         <div class="d-flex mb-5">
-                            <input class="form-control text-center me-3" id="inputQuantity" type="num" [(ngModel)]="quantity" style="max-width: 3rem" />
+                            <input class="form-control text-center me-3" id="inputQuantity" type="number" [(ngModel)]="quantity" style="max-width: 3rem" min="1"/>
                             <button (click)="addToCart(product, quantity)" class="btn btn-secondary flex-shrink-0" type="button">
                                 <i class="bi-cart-fill me-1"></i>
                                 Add to cart

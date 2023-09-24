@@ -12,7 +12,7 @@
             <div class="form-inline me-auto"  >
                 <div class="input-group" >
                     <div class="dropdown" >
-                        <input class="form-control mr-sm-2" style="width: 400px;" type="search" (focus)="onInputFocus()" (blur)="onInputBlur()" (keyup)="onKeyUp($event)" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+                        <input class="form-control mr-sm-2" style="width: 350px; position: relative; left: 7px;" type="search" (focus)="onInputFocus()" (blur)="onInputBlur()" (keyup)="onKeyUp($event)" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
                         <ul *ngIf="showDropdown" class = "uloption">
                             <li class="lioption"  *ngFor="let option of autocomProducts" (click)="selectOption(option.title)">{{ option.title }}</li>
                         </ul>
@@ -23,11 +23,12 @@
                   
                 </div>
             <div class="d-flex" style="position:relative; right:-75px;">
+                <button *ngIf="logedIn" onclick="window.location.href='/saved';" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-suit-heart-fill me-1"></i>Saved</button>
+                <button *ngIf="logedIn" onclick="window.location.href='/profile';" class="dropdown btn btn-outline-dark me-1" type="submit"><i class="bi bi-person-circle me-1"></i>Account</button>
                 <button *ngIf="logedIn"  onclick="window.location.href='/cart';" class="btn btn-outline-dark me-1" type="submit"><i class="bi-cart me-1"></i>Cart<span class="badge bg-dark text-white ms-1 rounded-pill">{{ItemsNum}}</span></button>
-                <button *ngIf="logedIn" onclick="window.location.href='/profile';" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-person-circle me-1"></i>Profile</button>
-                <button *ngIf="!logedIn" onclick="window.location.href='/login';" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-box-arrow-in-right me-1"></i>login</button>
+                <button *ngIf="!logedIn" onclick="window.location.href='/login';" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-box-arrow-in-left me-1"></i>login</button>
                 <button *ngIf="!logedIn" onclick="window.location.href='/Register';" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-plus-circle me-1"></i>Register</button>
-                <button *ngIf="logedIn" (click)="LogOut()" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-box-arrow-left me-1"></i>Log Out</button>
+                <button *ngIf="logedIn" (click)="LogOut()" title="Log Out" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-box-arrow-right"></i></button>
             </div>
         </div>
     </div>
