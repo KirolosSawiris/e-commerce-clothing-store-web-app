@@ -19,9 +19,18 @@ export class HomeComponent {
   
   public products: IProduct[] = [];
   public user: any;
+  public colors: any;
+  public categories: any;
   //this searchTerm will store the word that the user wants to search about when he user the search bar.
   public searchTerm: string = "";
   public isFav: boolean = false;
+
+  public minPrice :any;
+  public maxPrice: any;
+  public selectedSize : string | null = null;
+  public selectedColor: string | null = null;
+  public selectedCategory: string | null = null;
+
 
   constructor(private filterService: FilterService, private apiService: ApiService, private authService: AuthService,private router:Router,private arouter:ActivatedRoute){}
 
@@ -29,7 +38,8 @@ export class HomeComponent {
     this.searchTerm = this.arouter.snapshot.paramMap.get('serchTerm')?.toLowerCase() || "";
     localStorage.setItem('searchText', this.searchTerm);
     await this.getUser();
-    this.getProducts();
+    await this.getProducts();
+    await this.getOptions();
     console.log("home u", this.user);
   }
 
@@ -54,10 +64,14 @@ export class HomeComponent {
     this.authService.removeFav(product);
     await this.getUser();
     await this.getUser();
+    await this.getUser();
+    await this.getUser();
   }
 
    async addToFav(product: any){
       this.authService.addToFav(product);
+      await this.getUser();
+      await this.getUser();
       await this.getUser();
       await this.getUser();
   }
@@ -76,6 +90,50 @@ export class HomeComponent {
       }
     }
     return false;
+  }
+
+   async getOptions(){
+    var colors: String[] = [];
+    var categories: String[] = [];
+    for(const product of this.products){
+      colors.push(product.color)
+      categories.push(product.category.name)
+    }
+    colors = colors.filter((value, index, self) => {
+      return self.indexOf(value) === index;
+    });
+    categories = categories.filter((value, index, self) => {
+      return self.indexOf(value) === index;
+    });
+    this.colors = await colors;
+    this.categories= await categories;
+    this.colors.sort();
+    this.categories.sort();
+  }
+
+  applyFilters(){}
+
+  onSelectSizeChange(event: any) {
+    if (event !== null) {
+      this.selectedSize = event;
+      console.log(this.selectedSize);
+      
+    }
+  }
+
+  onSelectColorChange(event: any) {
+    if (event !== null) {
+      this.selectedColor = event;
+      console.log(this.selectedColor);
+      
+    }
+  }
+  onSelectCategoryChange(event: any) {
+    if (event !== null) {
+      this.selectedCategory = event;
+      console.log(this.selectedCategory);
+      
+    }
   }
 
 }

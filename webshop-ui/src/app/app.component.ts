@@ -104,10 +104,10 @@ export class AppComponent {
 
     setTimeout(() => {
       this.showDropdown = false;
-    }, 200);
+    }, 500);
   }
 
-  selectOption(option: any){
+  selectOption(option: any){    
     this.searchText = option;
   }
 }

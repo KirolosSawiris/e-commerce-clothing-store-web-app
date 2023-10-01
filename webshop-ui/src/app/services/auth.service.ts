@@ -106,12 +106,18 @@ export class AuthService {
 
   addToFav(product: any){
     this.apiService.addToFav(product, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).pipe(catchError((error: HttpErrorResponse)=> {
-      Swal.fire({
-        icon: 'info',
-        title: 'You are not logged in',
-        text: 'Please login to add this item to your Favourites',
-        confirmButtonColor: '#212529'
-      });
+      if(error.message == "Http failure response for http://localhost:4200/server/api/v1/users/addFavourite/null: 403 Forbidden")
+      {
+        Swal.fire({
+          icon: 'info',
+          title: 'You are not logged in',
+          text: 'Please login to save this item',
+          confirmButtonColor: '#212529'
+        });
+      }
+      else{
+        this.toastr.error('Error Adding Item');
+      }
       return throwError(()=> new Error('wrong username or password'));
     })).subscribe(() => {this.toastr.success('Added successfully');});
   }

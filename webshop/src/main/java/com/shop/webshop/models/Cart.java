@@ -21,7 +21,7 @@ public class Cart {
     @JsonIgnore
     private User user;
 
-    private int cartTotal;
+    private double cartTotal;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
@@ -60,11 +60,11 @@ public class Cart {
         this.cartItems.remove(cartItem);
     }
 
-    public int getCartTotal() {
+    public double getCartTotal() {
         return cartTotal;
     }
 
-    public void setCartTotal(int cartTotal) {
+    public void setCartTotal(double cartTotal) {
         this.cartTotal = cartTotal;
     }
 

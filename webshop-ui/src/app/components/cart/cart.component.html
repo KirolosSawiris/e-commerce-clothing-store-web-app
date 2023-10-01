@@ -132,7 +132,7 @@
                                                 <p *ngIf= "user.cart.cartTotal == 0" class="mb-2">$0.00</p>
                                             </div>
 
-                                            <button type="button" class="btn btn-secondary btn-block btn-lg">
+                                            <button type="button" class="btn btn-secondary btn-block btn-lg" (click)="createOrder(user.cart.cartTotal + 20)">
                                                 <div class="d-flex justify-content-between">
                                                     <span>Checkout <i
                                                             class="bi bi-arrow-right ms-2"></i></span>

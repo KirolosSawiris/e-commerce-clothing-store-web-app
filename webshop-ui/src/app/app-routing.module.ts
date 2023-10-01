@@ -11,6 +11,8 @@ import { ProductComponent } from './components/product/product.component';
 import { SavedComponent } from './components/saved/saved.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 const routes: Routes = [
   {
@@ -55,6 +57,14 @@ const routes: Routes = [
   {
     path: 'changePassword',
     component: ChangePasswordComponent
+  },
+  {
+    path: 'addProduct',
+    component: AddProductComponent
+  },
+  {
+    path: 'payment',
+    component: PaymentComponent
   }
 ];
 

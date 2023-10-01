@@ -1,40 +1,58 @@
- <!-- Navigation-->
- <head>
+<!-- Navigation-->
+
+<head>
     <link rel="icon" type="image/x-icon" href="">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
 </head>
- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5"><a class="navbar-brand" href="#!">Shirts Shop</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5"><a class="navbar-brand" href="#!">Shirts Shop</a><button class="navbar-toggler"
+            type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="home">Home</a></li>
             </ul>
-            <div class="form-inline me-auto"  >
-                <div class="input-group" >
-                    <div class="dropdown" >
-                        <input class="form-control mr-sm-2" style="width: 350px; position: relative; left: 7px;" type="search" (focus)="onInputFocus()" (blur)="onInputBlur()" (keyup)="onKeyUp($event)" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
-                        <ul *ngIf="showDropdown" class = "uloption">
-                            <li class="lioption"  *ngFor="let option of autocomProducts" (click)="selectOption(option.title)">{{ option.title }}</li>
+            <div class="form-inline me-auto">
+                <div class="input-group">
+                    <div class="dropdown">
+                        <input class="form-control mr-sm-2" style="width: 350px; position: relative; left: 7px;"
+                            type="search" (focus)="onInputFocus()" (blur)="onInputBlur()" (keyup)="onKeyUp($event)"
+                            placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+                        <ul *ngIf="showDropdown" class="uloption">
+                            <div *ngFor="let option of autocomProducts">
+                                <li class="lioption" (click)="selectOption(option.title)">{{ option.title }}</li>
+                            </div>
                         </ul>
                     </div>
-                    
+
                     <button class="btn btn-outline-dark my-2 my-sm-0" (click)="search()">Search</button>
-                  </div>
-                  
                 </div>
+
+            </div>
             <div class="d-flex" style="position:relative; right:-75px;">
-                <button *ngIf="logedIn" onclick="window.location.href='/saved';" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-suit-heart-fill me-1"></i>Saved</button>
-                <button *ngIf="logedIn" onclick="window.location.href='/profile';" class="dropdown btn btn-outline-dark me-1" type="submit"><i class="bi bi-person-circle me-1"></i>Account</button>
-                <button *ngIf="logedIn"  onclick="window.location.href='/cart';" class="btn btn-outline-dark me-1" type="submit"><i class="bi-cart me-1"></i>Cart<span class="badge bg-dark text-white ms-1 rounded-pill">{{ItemsNum}}</span></button>
-                <button *ngIf="!logedIn" onclick="window.location.href='/login';" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-box-arrow-in-left me-1"></i>login</button>
-                <button *ngIf="!logedIn" onclick="window.location.href='/Register';" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-plus-circle me-1"></i>Register</button>
-                <button *ngIf="logedIn" (click)="LogOut()" title="Log Out" class="btn btn-outline-dark me-1" type="submit"><i class="bi bi-box-arrow-right"></i></button>
+                <button *ngIf="logedIn" onclick="window.location.href='/saved';" class="btn btn-outline-dark me-1"
+                    type="submit"><i class="bi bi-suit-heart-fill me-1"></i>Saved</button>
+                <button *ngIf="logedIn" onclick="window.location.href='/profile';"
+                    class="dropdown btn btn-outline-dark me-1" type="submit"><i
+                        class="bi bi-person-circle me-1"></i>Account</button>
+                <button *ngIf="logedIn" onclick="window.location.href='/cart';" class="btn btn-outline-dark me-1"
+                    type="submit"><i class="bi-cart me-1"></i>Cart<span
+                        class="badge bg-dark text-white ms-1 rounded-pill">{{ItemsNum}}</span></button>
+                <button *ngIf="!logedIn" onclick="window.location.href='/login';" class="btn btn-outline-dark me-1"
+                    type="submit"><i class="bi bi-box-arrow-in-left me-1"></i>login</button>
+                <button *ngIf="!logedIn" onclick="window.location.href='/Register';" class="btn btn-outline-dark me-1"
+                    type="submit"><i class="bi bi-plus-circle me-1"></i>Register</button>
+                <button *ngIf="logedIn" (click)="LogOut()" title="Log Out" class="btn btn-outline-dark me-1"
+                    type="submit"><i class="bi bi-box-arrow-right"></i></button>
             </div>
         </div>
     </div>
 </nav>
 <router-outlet></router-outlet>
- <!-- Footer-->
- <footer class="py-5 bg-dark">
-    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Shirts Shop 2023</p></div>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Shirts Shop 2023</p>
+    </div>
 </footer>

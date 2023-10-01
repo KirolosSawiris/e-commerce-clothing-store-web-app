@@ -17,8 +17,38 @@
             <p class="lead fw-normal text-white-50 mb-0">Where Convenience Meets Style</p>
         </div>
     </header>
-    <section class="py-5 bigcard">
-        <div class="container mt-5">
+    <div class="bigcard filter">
+    
+    <div class="row pt-5">
+        <div class="col-md-2">
+                <input type="number" class="form-control" id="minPrice" placeholder="Min Price" [(ngModel)]="minPrice">
+        </div>
+        <div class="col-md-2">
+                <input type="number" class="form-control" id="maxPrice" placeholder="Max Price" [(ngModel)]="maxPrice">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" [ngModel]="selectedCategory" (ngModelChange)="onSelectCategoryChange($event)">
+                <option [ngValue]="null">Select Category</option>
+                <option *ngFor="let Category of categories" value="{{Category}}">{{Category}}</option>
+            </select>
+    </div>
+        <div class="col-md-3">
+                <select class= "form-select" [ngModel]="selectedSize" (ngModelChange)="onSelectSizeChange($event)">
+                    <option [ngValue]="null">Select Size</option>
+                    <option value="XS">XS</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn btn-outline-dark" (click)="applyFilters()">Apply Filters</button>
+        </div>
+    </div>
+</div>
+    <section class="py-4 bigcard">
+        <div class="container mt-5 col-xl-12">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
                 <!-- Use Bootstrap grid classes for responsiveness -->
                 <div *ngFor="let product of products" class="col mb-4">

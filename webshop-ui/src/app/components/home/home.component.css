@@ -7,6 +7,12 @@
     font-family: Arial, sans-serif;
 }
 
+.filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 header {
     background-color: #343a40; /* Dark header background */
     color: #fff; /* White text */

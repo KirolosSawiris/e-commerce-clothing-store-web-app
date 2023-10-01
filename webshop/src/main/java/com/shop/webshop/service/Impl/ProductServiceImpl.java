@@ -1,5 +1,6 @@
 package com.shop.webshop.service.Impl;
 
+import com.shop.webshop.models.Category;
 import com.shop.webshop.models.Product;
 import com.shop.webshop.models.User;
 import com.shop.webshop.repositories.ProductRepository;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,5 +36,22 @@ public class ProductServiceImpl implements ProductService {
         favorits.remove(user);
         FProduct.setFavorits(favorits);
         productRepository.save(FProduct);
+    }
+
+    @Override
+    public List<Product> filterProducts(Category category, BigDecimal minPrice, BigDecimal maxPrice, String size) {
+        List<Product> products = productRepository.findAll();
+        List<Product> results = new ArrayList<>();
+        for(Product product : products){
+            if(
+                    product.getCategory().getId() == category.getId()
+                    && product.getPrice().compareTo(minPrice) >= 0
+                    && product.getPrice().compareTo(maxPrice) <= 0
+                    && product.getSize() == size)
+            {
+                results.add(product);
+            }
+        }
+        return results;
     }
 }

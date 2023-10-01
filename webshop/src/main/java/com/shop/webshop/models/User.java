@@ -47,7 +47,9 @@ public class User {
     @JoinTable(
             name = "favorite_products",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
+            inverseJoinColumns = @JoinColumn(name = "product_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "product_id"}))
+
     private List<Product> favoriteProducts;
 
     public User()

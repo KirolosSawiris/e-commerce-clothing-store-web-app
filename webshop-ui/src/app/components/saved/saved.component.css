@@ -1,60 +1,73 @@
-.bigcard{
-    background-color:#F0F0F0;
+.bigcard {
+    background-color: #F0F0F0;
 }
+
 /* Custom CSS for the page */
-        body {
-            background-color: #f8f9fa; /* Light gray background */
-            font-family: Arial, sans-serif;
-        }
+body {
+    background-color: #f8f9fa;
+    /* Light gray background */
+    font-family: Arial, sans-serif;
+}
 
-        header {
-            background-color: #343a40; /* Dark header background */
-            color: #fff; /* White text */
-            padding: 3rem 0;
-        }
+header {
+    background-color: #343a40;
+    /* Dark header background */
+    color: #fff;
+    /* White text */
+    padding: 3rem 0;
+}
 
-        h1 {
-            font-size: 3rem;
-        }
+h1 {
+    font-size: 3rem;
+}
 
-        .lead {
-            font-size: 1.5rem;
-        }
+.lead {
+    font-size: 1.5rem;
+}
 
-        .product-card {
-            border: none; /* Remove card border */
-            border-radius: 10px; /* Rounded corners */
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
-        }
+.product-card {
+    border: none;
+    /* Remove card border */
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* Add subtle shadow */
+}
 
-        .product-card:hover {
-            transform: scale(1.03); /* Scale up on hover for a subtle effect */
-            transition: transform 0.2s ease-in-out;
-            cursor: pointer;
-        }
+.product-card:hover {
+    transform: scale(1.03);
+    /* Scale up on hover for a subtle effect */
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
 
-        .product-image {
-            width: 100%; /* Maintain full width of container */
-            max-height: 200px; /* Maximum height to avoid excessive cropping */
-            object-fit: contain; /* Maintain aspect ratio without cropping */
-        }
+.product-image {
+    width: 100%;
+    /* Maintain full width of container */
+    max-height: 200px;
+    /* Maximum height to avoid excessive cropping */
+    object-fit: contain;
+    /* Maintain aspect ratio without cropping */
+}
 
-        .product-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
+.product-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
 
-        .product-rating {
-            font-size: 1rem;
-            color: #ffc107; /* Yellow color for stars */
-        }
+.product-rating {
+    font-size: 1rem;
+    color: #ffc107;
+    /* Yellow color for stars */
+}
 
-        .product-price {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
+.product-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
 
-        .product-actions {
-            text-align: center;
-            margin-top: 1rem; /* Add spacing between buttons and image */
-        }
+.product-actions {
+    text-align: center;
+    margin-top: 1rem;
+    /* Add spacing between buttons and image */
+}

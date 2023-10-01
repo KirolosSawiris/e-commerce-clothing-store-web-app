@@ -29,6 +29,14 @@ export class ApiService {
     return res;
   }
 
+  async uploadProductImage(image: any){
+    const formData = new FormData();
+    formData.append('key', "7b138827965e7497d5aec8e8636f22a7")
+    formData.append('image', image);
+    const res = await this.http.post('https://api.imgbb.com/1/upload', formData).toPromise();
+    return res;
+  }
+
   async getProductById(id: any){
     const res = await this.http.get('/server/api/v1/products/' + String(id)).toPromise();
     return res;
@@ -79,6 +87,14 @@ export class ApiService {
       };
       const res = await this.http.put('/server/api/v1/users/removeCartItem/' + username, item, options).toPromise();
       return res
+  }
+
+  async createOrder(amount: any){
+    const body = {
+      cartTotal: amount
+    } 
+    const res = await this.http.post("/server/api/v1/payment/create-payment", body).toPromise();
+    return res;
   }
 
   addToFav(product: any, username: string, token: String){

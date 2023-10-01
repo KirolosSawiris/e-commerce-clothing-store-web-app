@@ -22,7 +22,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addCartItem(Cart cart, CartItem cartItem) {
-        cart.setCartTotal(cart.getCartTotal() + cartItem.getQuantity() * cartItem.getProduct().getPrice().intValue());
+        cart.setCartTotal(cart.getCartTotal() + cartItem.getQuantity() * cartItem.getProduct().getPrice().doubleValue());
         cartItem.setCart(cart);
         cartRepository.save(cart);
         cartItemRepository.save(cartItem);
@@ -30,7 +30,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeCartItem(Cart cart, CartItem cartItem) {
-        cart.setCartTotal(cart.getCartTotal() - cartItem.getQuantity() * cartItem.getProduct().getPrice().intValue());
+        cart.setCartTotal(cart.getCartTotal() - cartItem.getQuantity() * cartItem.getProduct().getPrice().doubleValue());
         cartRepository.save(cart);
         cartItemRepository.deleteById(cartItem.getId());
 
