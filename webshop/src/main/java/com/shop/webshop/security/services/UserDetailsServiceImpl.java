@@ -20,7 +20,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
+        String usernamelower = username.toLowerCase();
+        User user = userRepository.findByUsername(usernamelower)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> { authorities.add(new SimpleGrantedAuthority(role.getName()));});

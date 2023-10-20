@@ -40,6 +40,15 @@ public class ProductController {
         return productRepository.saveAndFlush(product);
     }
 
+    @PutMapping
+    public Product edit(@RequestBody final Product product) {
+        return productRepository.saveAndFlush(product);
+    }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable ("id") long id){
+         productRepository.deleteById(id);
+    }
+
 //    @PatchMapping(path = "/upload/{id}")
 //    public ResponseEntity<Boolean> addPhoto(@PathVariable(name = "id") Long id,
 //                                            @RequestParam("productImage") MultipartFile file) throws IOException {

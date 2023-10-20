@@ -31,7 +31,8 @@ export class SavedComponent {
 
    removeFav(product: any){
     this.authService.removeFav(product);
-    window.location.reload();  
+    this.products = this.products.filter((p: any) => p.id !== product.id);
+ 
   }
 
   viewProduct(product: any){

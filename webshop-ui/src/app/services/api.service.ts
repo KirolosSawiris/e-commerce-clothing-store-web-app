@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { IProduct } from '../model/iproduct';
 import { Observable } from 'rxjs';
 
@@ -42,6 +42,31 @@ export class ApiService {
     return res;
   }
 
+  async filterProducts(minPrice: any, maxPrice: any, size: any, category: any){
+    let params = new HttpParams();
+    
+    if(minPrice){
+      params = params.set('minPrice', minPrice);
+    }
+    if(maxPrice){
+      params = params.set('maxPrice', maxPrice);
+    }
+    if(size){
+      params = params.set('size', size);
+    }
+    if(category){
+      params = params.set('category', category);
+      
+    }
+    const res = await this.http.get('/server/api/v1/products/filter', { params }).toPromise();
+    return res;
+  }
+
+  async getCategories(){
+    const res = await this.http.get('/server/api/v1/categories').toPromise();
+    return res;
+  }
+
   //send a get request but first add the token to the Authorization header to authenticate.
   async getUser(username: string, token: String){
 
@@ -65,7 +90,12 @@ export class ApiService {
       headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
       };
       const res = await this.http.put('/server/api/v1/users/changePassword/' + username,user, options).toPromise();
-      return res
+      return res;
+  }
+
+  async sendNewPassword(email: String){
+    const res = await this.http.get('/server/api/v1/users/sendNewPassword/' + email).toPromise();
+    return res;
   }
 
   //add the product with a quantity to the user cart.
@@ -74,10 +104,9 @@ export class ApiService {
       headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
       };
       const body = {
-        product: {id: product.id,
-                  price: product.price},
+        product: product,
         quantity: quantity
-      } 
+      }
       return this.http.put('/server/api/v1/users/addCartItem/' + username, body, options);
   }
   //remove cart item from cart
@@ -89,11 +118,29 @@ export class ApiService {
       return res
   }
 
-  async createOrder(amount: any){
-    const body = {
-      cartTotal: amount
-    } 
-    const res = await this.http.post("/server/api/v1/payment/create-payment", body).toPromise();
+  async createOrder(cart: any, username: string, token: String){
+    const body = cart;
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+    const res = await this.http.post("/server/api/v1/payment/create-payment/" + username, body, options).toPromise();
+    return res;
+  }
+
+  async getOrders(username: string, token: String){
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+    const res = await this.http.get("/server/api/v1/orders", options).toPromise();
+    return res;
+  }
+
+  async confirmOrder(paymentResponse: any, token: String){
+    const body = paymentResponse;
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+    const res = await this.http.post("/server/api/v1/payment/confirm-payment", body, options).toPromise();
     return res;
   }
 
@@ -117,6 +164,41 @@ export class ApiService {
       return this.http.put('/server/api/v1/users/removeFavourite/' + username, body, options);
   }
 
+  async createCategory(categoryName: any, username: string, token: String){
+    const body = {name: categoryName};
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+    const res = await this.http.post("/server/api/v1/categories", body, options).toPromise();
+    return res;
+  }
+
+  async createProduct(product: any, username: string, token: String){
+    const body = product;
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+    const res = await this.http.post("/server/api/v1/products", body, options).toPromise();
+    return res;
+  }
+
+  async editProduct(product: any, username: string, token: String){
+    const body = product;
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+    const res = await this.http.put("/server/api/v1/products", body, options).toPromise();
+    return res;
+  }
+
+  async deleteProduct(product: any, username: string, token: String){
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+    const res = await this.http.delete("/server/api/v1/products/" + product.id, options).toPromise();
+    return res;
+  }
+
   createUser(firstName: any, lastName: any, username: any, email:any, password: any, address: any, postcode: any, country: any, region: any){
     const user = { 
       firstName: firstName,
@@ -131,4 +213,5 @@ export class ApiService {
     };
       return this.http.post('/server/api/v1/users/Register', user);
   }
+
 }

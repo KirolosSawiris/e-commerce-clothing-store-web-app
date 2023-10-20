@@ -4,7 +4,7 @@
 }
 
 .container {
-    max-width: 500px; /* Center content and limit width */
+    max-width: 1000px; /* Center content and limit width */
     padding: 50px;
 }
 
@@ -19,6 +19,3 @@
     color: #fff; /* White header text */
     border-radius: 10px 10px 0 0; /* Rounded corners for the top */
 }
-
-
-

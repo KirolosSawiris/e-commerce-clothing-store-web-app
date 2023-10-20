@@ -11,16 +11,21 @@ import com.shop.webshop.repositories.ProductRepository;
 import com.shop.webshop.repositories.RoleRepository;
 import com.shop.webshop.repositories.UserRepository;
 import com.shop.webshop.service.CartService;
+import com.shop.webshop.service.Impl.MailServiceImpl;
 import com.shop.webshop.service.ProductService;
 import com.shop.webshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.mail.MessagingException;
 import java.security.Principal;
 import java.util.List;
 
@@ -48,6 +53,9 @@ public class UserController {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private MailServiceImpl mailService;
+
     @GetMapping
     public List<User> list()
     {
@@ -56,8 +64,18 @@ public class UserController {
 
     @PostMapping("/Register")
     public User create(@RequestBody final User user){
+        user.setUsername(user.getUsername().toLowerCase());
+        user.setEmail(user.getEmail().toLowerCase());
         return userService.saveUser(user);
     }
+
+    @GetMapping("/sendNewPassword/{email}")
+        public void sendNewPasswordToEmail(@PathVariable ("email") String email) throws MessagingException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + email));
+        mailService.sendNewPassword(user);
+    }
+
     @GetMapping("/{username}")
     public User get(@PathVariable ("username") String requestedUsername, Principal principal){
         String currentUsername = principal.getName();
@@ -69,6 +87,10 @@ public class UserController {
         User requestedUser = userRepository.findByUsername(requestedUsername)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
         requestedUser.setPassword(null);
+//        if(requestedUser.getUsername().equals("tito")){
+//            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account Inactive");
+//
+//        }
         return requestedUser;
     }
 

@@ -19,7 +19,7 @@
                 <!-- Use Bootstrap grid classes for responsiveness -->
                 <div *ngFor="let product of products" class="col mb-4">
                     <div class="card product-card">
-                        <img (click)="viewProduct(product)" class="card-img-top product-image" [src]="product.image" alt="Product Image">
+                        <img (click)="viewProduct(product)" class="m-2" [src]="product.image" alt="Product Image">
                         <div (click)="viewProduct(product)" class="card-body">
                             <h5 class="product-title">{{product.title}}</h5>
                             <div class="product-rating">

@@ -1,24 +1,38 @@
-<div class="container">
-    <table class="table table-bordered table-inverse">
-      <tr>
-        <th>Owner Name</th>
-        <th>Email</th>
-        <th>Model</th>
-        <th class="text-right">Purchase Price</th>
-      </tr>
-      <tr *ngFor="let customer of products">
-        <td>
-            {{customer.id}}
-          </td>
-        <td>
-          {{customer.title}}
-        </td>
-        <td>
-            {{customer.price}}
-          </td>
-        <td>
-          {{customer.color}}
-        </td>
-      </tr>
-    </table>
+<section class="py-3 bg-dark">
+  <h1 class="text-center my-3 text-white">Order Dashboard</h1>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col">
+        <div class="card bg-white text-dark">
+          <div class="card-body">
+            <h5 class="card-title">All Orders</h5>
+            <div *ngFor="let order of orders" class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h6 class="card-subtitle mb-2 text-muted">Order ID: {{ order.order.id }}</h6>
+                    <p class="card-text">Status: {{ order.order.status}}</p>
+                    <p class="card-text">Amount: ${{ order.order.amount/100}}</p>
+                    <h6>Order Items:</h6>
+                    <ul>
+                      <li *ngFor="let item of order.order.orderItems">
+                        Product: {{ item.product.title }} - Quantity: {{ item.quantity }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <h6>Customer Information:</h6>
+                    <p>Customer: {{ order.firstName }} {{ order.lastName }}</p>
+                    <p>Email: {{ order.email }}</p>
+                    <p>Address: {{ order.address }}</p>
+                    <p>Postcode: {{order.postcode}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</section>

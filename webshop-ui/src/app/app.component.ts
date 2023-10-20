@@ -27,6 +27,7 @@ export class AppComponent {
   public products: any;
   public autocomProducts: any;
   public showDropdown = false;
+  public isAdmin = false
 
 
   constructor(private router: Router, private apiService: ApiService, private arouter:ActivatedRoute, private authService: AuthService, private filterService : FilterService){
@@ -40,12 +41,20 @@ export class AppComponent {
 
   //check if the token exists which means the user logged in and send a get request every half a second
   //if it faild to get once then the token expired or became invalid so it kicks the user out.
-  ngOnInit(){
+  async ngOnInit(){
     this.getProducts();
     setTimeout(() => {this.searchText = localStorage.getItem('searchText');}, 5);
     localStorage.removeItem('searchText');
     if(localStorage.getItem("access_token")){
+      await this.getuser();
       this.logedIn = true;
+      console.log(this.user);
+      const adminRole = this.user.roles.find((role: any) => role.name == "Role_Admin");
+      if(adminRole){
+        this.isAdmin = true;
+      }
+      console.log(this.isAdmin);
+      
       interval(500).subscribe(x => {this.getUserCartItemsNumber();});
     }
     else{this.logedIn= false}
@@ -55,16 +64,23 @@ export class AppComponent {
   LogOut()
   {
     localStorage.clear();
-    this.router.navigate(['home']);
-    window.location.reload();
+    this.router.navigate(['login']);
+  }
+
+  async getuser(){
+    this.user= await this.authService.getUser();
   }
 
   //this method to get the number of cart item to show it on the nav bar.
   async getUserCartItemsNumber(){
-    this.user= await this.authService.getUser();
+    await this.getuser();
     if(this.user){
-    this.ItemsNum = this.user['cart']['cartItems']['length'];
-    localStorage.setItem("cartElms", this.user['cart']['cartItems']['length']);
+    var sum = 0
+     for(let cartItem of this.user.cart.cartItems){
+      sum = sum + 1 * cartItem.quantity;      
+    }
+    this.ItemsNum = sum;
+    localStorage.setItem("cartElms", this.ItemsNum);
     }
   }
 

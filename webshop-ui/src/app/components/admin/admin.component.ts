@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -9,13 +10,17 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class AdminComponent implements OnInit{
 
-  public products: any;
+  public orders: any;
 
-  constructor(private apiService: ApiService){}
-  ngOnInit(): void {this.getProducts()}
+  constructor(private authService: AuthService){}
+  ngOnInit(): void {
+    this.getProducts();
+    console.log(this.orders);
+    
+  }
 
-  getProducts(){
-
+  async getProducts(){
+    this.orders = await this.authService.getOrder();
   }
 
 }

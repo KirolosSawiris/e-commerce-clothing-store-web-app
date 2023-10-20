@@ -23,12 +23,12 @@
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <div>
                                             <p class="mb-1">Shopping cart</p>
-                                            <p class="mb-0">You have {{cartItems.length}} items in your cart</p>
+                                            <p class="mb-0">You have {{user.cart.cartItems.length}} items in your cart</p>
                                         </div>
                                         
                                     </div>
 
-                                    <div *ngFor="let cartItem of cartItems" class="card mb-3">
+                                    <div *ngFor="let cartItem of user.cart.cartItems" class="card mb-3">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between">
                                                 <div (click)="productClicked(cartItem.product)" style="cursor: pointer;" class="d-flex flex-row align-items-center">
@@ -44,8 +44,11 @@
                                                 </div>
                                                 <div class="d-flex flex-row align-items-center">
                                                     <div style="width: 100px;" class="text-center">
+                                                        <button (click)="increaseQuantity(cartItem)" class="btn btn-outline-dark btn-sm quantitybtn"><i class="quantityicon fa fa-plus"></i></button>
                                                         <h5 class="fw-normal mb-0">{{cartItem.quantity}}</h5>
-                                                    </div>
+                                                        <button (click)="decreaseQuantity(cartItem)" class="btn btn-outline-dark btn-sm quantitybtn"><i class="quantityicon fa fa-minus"></i></button>
+                                                        
+                                                    </div> 
                                                     <div style="width: 80px;">
                                                         <h5 class="mb-0">${{cartItem.product.price}}</h5>
                                                     </div>
@@ -132,7 +135,7 @@
                                                 <p *ngIf= "user.cart.cartTotal == 0" class="mb-2">$0.00</p>
                                             </div>
 
-                                            <button type="button" class="btn btn-secondary btn-block btn-lg" (click)="createOrder(user.cart.cartTotal + 20)">
+                                            <button type="button" class="btn btn-secondary btn-block btn-lg" (click)="createOrder(user.cart)">
                                                 <div class="d-flex justify-content-between">
                                                     <span>Checkout <i
                                                             class="bi bi-arrow-right ms-2"></i></span>

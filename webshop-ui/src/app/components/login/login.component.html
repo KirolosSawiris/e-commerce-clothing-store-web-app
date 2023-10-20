@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Shop Homepage - Start Bootstrap Template</title><!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"><!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"><!-- Core theme CSS (includes Bootstrap)-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
 </head>
-
-<div class="bg-dark text-white" >
-<form class="w-25 p-3 text-center"  style="height: 250px;" [formGroup]="form" (submit)="submit()">
-  <h1 class="h3 mb-3 mx-auto my-auto fw-normal">Please sign in</h1>
-
-  <input style=" margin-top:20px" formControlName="username" type="text" class="form-control" placeholder="Username" required>
-
-  <input style=" margin-top:10px" formControlName="password" type="password" class="form-control" placeholder="Password" required>
-
-  <button style=" margin-top:20px" class="w-100 btn btn-lg btn-secondary" type="submit">Sign in</button>
-</form>
-</div>
-<div class = "bg-white" style="height: 159px;"><p></p></div>
-</html>                                		
+<body class="bg-dark">
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-black text-center">
+                <h3 class="card-title">Login</h3>
+            </div>
+            <div class="card-body fw-bolder">
+                <form [formGroup]="form" (submit)="submit()">
+                    <div class="form-group">
+                        <label for="currentPassword">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Enter Username" formControlName = "username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter password" formControlName = "password">
+                    </div>
+                    <div class="form-group">
+                      <a class="m-2 text-black" href="/forgotPassword">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-block">Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

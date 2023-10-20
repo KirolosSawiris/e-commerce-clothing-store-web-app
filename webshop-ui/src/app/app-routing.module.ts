@@ -13,11 +13,11 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 const routes: Routes = [
-  {
-    path: '', redirectTo: 'home', pathMatch: 'full'
-  },
   {
     path: 'login',
     component: LoginComponent
@@ -43,6 +43,10 @@ const routes: Routes = [
     component: ProductComponent
   },
   {
+    path: 'editProduct/:productId',
+    component: EditProductComponent
+  },
+  {
     path: 'home/search/:serchTerm',
     component: HomeComponent
   },
@@ -65,6 +69,17 @@ const routes: Routes = [
   {
     path: 'payment',
     component: PaymentComponent
+  },
+  {
+    path: 'admin',
+    component: AdminComponent
+  },
+  {
+    path: 'forgotPassword',
+    component: ForgotPasswordComponent
+  },
+  {
+    path: '**', redirectTo: 'home', pathMatch: 'full'
   }
 ];
 

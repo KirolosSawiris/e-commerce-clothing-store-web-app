@@ -27,6 +27,9 @@ import { PaymentComponent } from './components/payment/payment.component'
 import { NgxStripeModule } from 'ngx-stripe';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -43,7 +46,10 @@ import { MatButtonModule } from '@angular/material/button';
     EditProfileComponent,
     ChangePasswordComponent,
     AddProductComponent,
-    PaymentComponent
+    PaymentComponent,
+    AdminDashboardComponent,
+    EditProductComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

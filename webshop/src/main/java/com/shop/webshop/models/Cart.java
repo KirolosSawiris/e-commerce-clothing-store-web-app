@@ -33,6 +33,14 @@ public class Cart {
         this.cartItems = new ArrayList<>();
     }
 
+    public void updateTotal(){
+        double total = 0;
+        for(CartItem cartItem: this.cartItems){
+            total = total + (cartItem.getQuantity() * cartItem.getProduct().getPrice().doubleValue());
+        }
+        this.cartTotal = total;
+    }
+
     public Long getId() {
         return id;
     }

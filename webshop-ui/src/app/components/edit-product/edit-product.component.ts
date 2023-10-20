@@ -1,19 +1,18 @@
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
-import { ToastrService } from 'ngx-toastr';
-import { IProduct } from 'src/app/model/iproduct';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/model/iUser';
+import { IProduct } from 'src/app/model/iproduct';
+import { ApiService } from 'src/app/services/api.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-add-product',
-  templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.css']
+  selector: 'app-edit-product',
+  templateUrl: './edit-product.component.html',
+  styleUrls: ['./edit-product.component.css']
 })
-export class AddProductComponent {
+export class EditProductComponent {
 
   public product!: IProduct;
   public res: any;
@@ -30,15 +29,24 @@ export class AddProductComponent {
     image: new FormControl('',Validators.required),
   })
   public categories: any;
+  selectedFile: File | null = null;
+  productImageUrl: any;
 
-  constructor(private apiService: ApiService, private authService: AuthService, private toastr: ToastrService) { }
+  constructor(private router: ActivatedRoute, private apiService: ApiService, private authService: AuthService, private toastr: ToastrService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const productId = this.router.snapshot.paramMap.get("productId");
+    await this.getProduct(productId);
+    this.productImageUrl = this.product.image;
     this.getCategories();
   }
 
-  selectedFile: File | null = null;
-  productImageUrl: any = "https://i.ibb.co/7rc76z9/360-F-434728286-OWQQv-AFo-XZLd-GHl-Obozsol-Neu-Sxhpr84.jpg";
+  async getProduct(id: any){
+    this.product = await this.apiService.getProductById(id) as IProduct;
+  }
+  
+
+
  
   // add images 
   onFileSelected(event: any): void {
@@ -54,7 +62,7 @@ export class AddProductComponent {
     
   }
 
-  //send all images from dropzone container
+
   async send(){
     if (this.selectedFile) {
       try{
@@ -86,6 +94,7 @@ async submit(){
     this.form.get('category')?.setValue(String(category.id));
   }
     const product = {
+    id: this.product.id,
     title: String(this.form.get('title')?.value),
     category: {id: String(this.form.get('category')?.value)},
     price: String(this.form.get('price')?.value),
@@ -95,85 +104,8 @@ async submit(){
     description: String(this.form.get('description')?.value),
     image: String(this.form.get('image')?.value),
     }
-    let res = this.authService.createProduct(product);
+    let res = this.authService.editProduct(product);
     console.log('Form submitted with data:', product, res);
 }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// constructor(private http: HttpClient) { }
-
-  // ngOnInit(): void {
-  //   this.getToken();
-  // }
-
-
-  // getToken() {
-  //   const clientId = 'fa59271e1025a35';
-  //   const clientSecret = 'af71d45a35cb05d5522033c98546509af355e846';
-  //   var refreshToken = '124a5b67d8cdee2cbb6c7f91b7e653f5bdeeabbe';
-  //   var accessToken = '';
-
-  //   const formData = new FormData();
-  //   formData.append('refresh_token', refreshToken);
-  //   formData.append('client_id', clientId);
-  //   formData.append('client_secret', clientSecret);
-  //   formData.append('grant_type', 'refresh_token');
-
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>'
-  //   });
-
-  //   this.http.post('https://api.imgur.com/oauth2/token', formData, {headers}).subscribe(
-  //     (response) => {
-  //       console.log(response);
-        
-  //     },
-  //     (error) => {
-
-  //     }
-  //   );
-
-  // }

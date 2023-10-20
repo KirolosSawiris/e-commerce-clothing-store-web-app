@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FilterService } from 'src/app/services/filter.service';
 import { ToastrService } from 'ngx-toastr';
 import { interval } from 'rxjs';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -24,12 +25,12 @@ export class HomeComponent {
   //this searchTerm will store the word that the user wants to search about when he user the search bar.
   public searchTerm: string = "";
   public isFav: boolean = false;
+  public isAdmin: boolean =  false;
 
   public minPrice :any;
-  public maxPrice: any;
-  public selectedSize : string | null = null;
-  public selectedColor: string | null = null;
-  public selectedCategory: string | null = null;
+  public maxPrice : any;
+  public selectedSize : any;
+  public selectedCategory: any;
 
 
   constructor(private filterService: FilterService, private apiService: ApiService, private authService: AuthService,private router:Router,private arouter:ActivatedRoute){}
@@ -38,8 +39,14 @@ export class HomeComponent {
     this.searchTerm = this.arouter.snapshot.paramMap.get('serchTerm')?.toLowerCase() || "";
     localStorage.setItem('searchText', this.searchTerm);
     await this.getUser();
+    if(this.user){
+      const adminRole = this.user.roles.find((role: any) => role.name == "Role_Admin");
+      if(adminRole){
+        this.isAdmin = true;
+      }
+    }
     await this.getProducts();
-    await this.getOptions();
+    await this.getCategories();
     console.log("home u", this.user);
   }
 
@@ -61,19 +68,14 @@ export class HomeComponent {
   }
 
    async removeFav(product: any){
-    this.authService.removeFav(product);
-    await this.getUser();
-    await this.getUser();
-    await this.getUser();
-    await this.getUser();
+    await this.authService.removeFav(product);
+    this.user.favoriteProducts = this.user.favoriteProducts.filter((p: IProduct) => p.id !== product.id);
+
   }
 
    async addToFav(product: any){
-      this.authService.addToFav(product);
-      await this.getUser();
-      await this.getUser();
-      await this.getUser();
-      await this.getUser();
+      await this.authService.addToFav(product);
+      this.user.favoriteProducts.push(product);
   }
 
 
@@ -92,48 +94,48 @@ export class HomeComponent {
     return false;
   }
 
-   async getOptions(){
-    var colors: String[] = [];
-    var categories: String[] = [];
-    for(const product of this.products){
-      colors.push(product.color)
-      categories.push(product.category.name)
-    }
-    colors = colors.filter((value, index, self) => {
-      return self.indexOf(value) === index;
-    });
-    categories = categories.filter((value, index, self) => {
-      return self.indexOf(value) === index;
-    });
-    this.colors = await colors;
-    this.categories= await categories;
-    this.colors.sort();
+  async getCategories(){
+    this.categories = await this.apiService.getCategories();
     this.categories.sort();
   }
 
-  applyFilters(){}
+   
+  async applyFilters(){
+    this.products = await this.apiService.filterProducts(this.minPrice, this.maxPrice, this.selectedSize, this.selectedCategory) as IProduct[];
+  }
 
   onSelectSizeChange(event: any) {
     if (event !== null) {
       this.selectedSize = event;
       console.log(this.selectedSize);
-      
     }
   }
 
-  onSelectColorChange(event: any) {
-    if (event !== null) {
-      this.selectedColor = event;
-      console.log(this.selectedColor);
-      
-    }
-  }
+
   onSelectCategoryChange(event: any) {
     if (event !== null) {
       this.selectedCategory = event;
       console.log(this.selectedCategory);
-      
     }
+  }
+
+  edit(product: any){
+    this.router.navigate(['editProduct', product.id]);
+  }
+  delete(product: any){
+    Swal.fire({
+      title: 'Do you want to delete this product?',
+      showDenyButton: true,
+      confirmButtonText: 'Yes',
+      confirmButtonColor: "#D10000",
+      denyButtonText: 'No',
+      denyButtonColor: '#212529',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.authService.deleteProduct(product);
+        this.products = this.products.filter((p: any) => p.id !== product.id);
+      }
+    })
   }
 
 }

@@ -19,7 +19,7 @@
     </header>
     <div class="bigcard filter">
     
-    <div class="row pt-5">
+    <div *ngIf="searchTerm == ''" class="row pt-5">
         <div class="col-md-2">
                 <input type="number" class="form-control" id="minPrice" placeholder="Min Price" [(ngModel)]="minPrice">
         </div>
@@ -28,13 +28,13 @@
         </div>
         <div class="col-md-3">
             <select class="form-select" [ngModel]="selectedCategory" (ngModelChange)="onSelectCategoryChange($event)">
-                <option [ngValue]="null">Select Category</option>
-                <option *ngFor="let Category of categories" value="{{Category}}">{{Category}}</option>
+                <option [ngValue]="undefined">Select Category</option>
+                <option *ngFor="let Category of categories" value="{{Category.name}}">{{Category.name}}</option>
             </select>
     </div>
         <div class="col-md-3">
                 <select class= "form-select" [ngModel]="selectedSize" (ngModelChange)="onSelectSizeChange($event)">
-                    <option [ngValue]="null">Select Size</option>
+                    <option [ngValue]="undefined">Select Size</option>
                     <option value="XS">XS</option>
                     <option value="S">S</option>
                     <option value="M">M</option>
@@ -53,7 +53,7 @@
                 <!-- Use Bootstrap grid classes for responsiveness -->
                 <div *ngFor="let product of products" class="col mb-4">
                     <div class="card product-card">
-                        <img (click)="viewProduct(product)" class="card-img-top product-image" [src]="product.image" alt="Product Image">
+                        <img (click)="viewProduct(product)" class="m-2" [src]="product.image" alt="Product Image">
                         <div (click)="viewProduct(product)" class="card-body">
                             <h5 class="product-title">{{product.title}}</h5>
                             <div class="product-rating">
@@ -66,9 +66,11 @@
                             <p class="product-price">{{product.price}}$</p>
                         </div>
                         <div class="product-actions mb-3">
-                            <button *ngIf="!favorit(product)" (click)="addToFav(product)" class="btn btn btn-outline-dark  bi bi-suit-heart"></button>
-                            <button *ngIf="favorit(product)" (click)="removeFav(product)" class="btn btn btn-outline-dark  bi bi-suit-heart-fill"></button>
-                            <button (click)="addToCart(product)" class="btn btn btn-outline-dark mx-2 bi bi-cart"> Cart</button>
+                            <button *ngIf="!favorit(product) && !isAdmin" (click)="addToFav(product)" class="btn  btn-outline-dark  bi bi-suit-heart"></button>
+                            <button *ngIf="favorit(product) && !isAdmin" (click)="removeFav(product)" class="btn  btn-outline-dark  bi bi-suit-heart-fill"></button>
+                            <button *ngIf="isAdmin" (click)="delete(product)" class="btn btn-outline-dark bi bi-trash mx-1"> Delete</button>
+                            <button *ngIf="isAdmin" (click)="edit(product)" class="btn btn-outline-dark bi bi-pencil mx-1"> Edit</button>
+                            <button *ngIf="!isAdmin" (click)="addToCart(product)" class="btn btn-outline-dark mx-2 bi bi-cart"> Cart</button>
                         </div>
                     </div>
                 </div>

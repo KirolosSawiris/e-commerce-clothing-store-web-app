@@ -22,17 +22,34 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addCartItem(Cart cart, CartItem cartItem) {
+        if(cartItem.getQuantity() < 1){
+            return;
+        }
+        cart = cartRepository.getById(cart.getId());
         cart.setCartTotal(cart.getCartTotal() + cartItem.getQuantity() * cartItem.getProduct().getPrice().doubleValue());
         cartItem.setCart(cart);
         cartRepository.save(cart);
+        for(CartItem item : cart.getCartItems()){
+            if(item.getProduct().getId() == cartItem.getProduct().getId()){
+                item.setQuantity(item.getQuantity() + cartItem.getQuantity());
+                cartItemRepository.save(item);
+                return;
+            }
+        }
         cartItemRepository.save(cartItem);
     }
 
     @Override
     public void removeCartItem(Cart cart, CartItem cartItem) {
+        cart = cartRepository.getById(cart.getId());
         cart.setCartTotal(cart.getCartTotal() - cartItem.getQuantity() * cartItem.getProduct().getPrice().doubleValue());
         cartRepository.save(cart);
-        cartItemRepository.deleteById(cartItem.getId());
-
+        CartItem requested = cartItemRepository.getById(cartItem.getId());
+        if(requested.getQuantity()-cartItem.getQuantity() > 0) {
+            requested.setQuantity(requested.getQuantity() - cartItem.getQuantity());
+            cartItemRepository.save(requested);
+        }else {
+            cartItemRepository.delete(requested);
+        }
     }
 }

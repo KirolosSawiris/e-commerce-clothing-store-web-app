@@ -35,6 +35,8 @@ export class AuthService {
           text: 'Incorrect username or password',
           confirmButtonColor: '#212529'
         });
+        console.log(error);
+        
         return throwError(()=> new Error('wrong username or password'));
       })
     );
@@ -46,8 +48,16 @@ export class AuthService {
       this.user= await this.apiService.getUser(String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
     }
       catch(error){
+        var e: HttpErrorResponse = error as HttpErrorResponse;
+        if(e.status == 406){
+          Swal.fire({
+            icon: 'info',
+            title: 'Activate your Email',
+            text: 'Please activate your email to login',
+            confirmButtonColor: '#212529'
+          }).then(()=> window.location.reload());
+        }
         localStorage.clear()
-        window.location.reload();
       }      
     return this.user;
   }
@@ -134,8 +144,91 @@ export class AuthService {
     })).subscribe(() => {this.toastr.success('Removed successfully');});
   }
 
+  async createOrder(cart: any){
+    const res = await this.apiService.createOrder(cart, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
+    return res;
+  }
+
+  async getOrder(){
+    const res = await this.apiService.getOrders(String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
+    return res;
+  }
+
+  async confirmOrder(paymentResponse: any){
+    const res = await this.apiService.confirmOrder(paymentResponse, String(localStorage.getItem("access_token")));
+    return res;
+  }
+
   async removeFromCart(item: any){
     const res = await this.apiService.removefromCart(item, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
-    return res
+    return res;
+  }
+
+  async createCategory(categoryName: any){
+    const res = await this.apiService.createCategory(categoryName, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
+    return res;
+  }
+  async createProduct(product: any){
+    let res: any;
+    try{
+      res = await this.apiService.createProduct(product, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));        Swal.fire({
+          icon:'success',
+          title: 'Product added',
+          text: 'Product added successfuly',
+          confirmButtonColor: '#212529'
+        }).then(()=> window.location.reload());
+    }catch(error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Could not add the product',
+          text: 'Make sure that you have the preveldges to add products and try again later',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#212529'
+        }).then(()=> window.location.reload());
+      }
+    return res;
+  }
+
+  async editProduct(product: any){
+    let res: any;
+    try{
+      res = await this.apiService.editProduct(product, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));        
+      Swal.fire({
+          icon:'success',
+          title: 'Product saved',
+          text: 'Product edited successfuly',
+          confirmButtonColor: '#212529'
+        }).then(()=> window.location.reload());
+    }catch(error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Could not edit the product',
+          text: 'Make sure that you have the preveldges to edit products and try again later',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#212529'
+        }).then(()=> window.location.reload());
+      }
+    return res;
+  }
+
+  async deleteProduct(product: any){
+    let res: any;
+    try{
+      res = await this.apiService.deleteProduct(product, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));        Swal.fire({
+          icon:'success',
+          title: 'Product deleted',
+          text: 'Product deleted successfuly',
+          confirmButtonColor: '#212529'
+        });
+    }catch(error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Could not delete the product',
+          text: 'Make sure that you have the preveldges to delete products and try again later',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#212529'
+        });
+      }
+    return res;
   }
 }
