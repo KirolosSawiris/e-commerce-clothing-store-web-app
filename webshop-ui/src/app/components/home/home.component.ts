@@ -31,6 +31,7 @@ export class HomeComponent {
   public maxPrice : any;
   public selectedSize : any;
   public selectedCategory: any;
+  public selectedCategoryGender: any;
 
 
   constructor(private filterService: FilterService, private apiService: ApiService, private authService: AuthService,private router:Router,private arouter:ActivatedRoute){}
@@ -46,7 +47,6 @@ export class HomeComponent {
       }
     }
     await this.getProducts();
-    await this.getCategories();
     console.log("home u", this.user);
   }
 
@@ -59,7 +59,7 @@ export class HomeComponent {
   //get the products then apply the filter service to filter if the user used the search bar.
   async getProducts(){
     this.products = await this.apiService.getProducts() as IProduct[];    
-    this.products = this.filterService.filterBySearch(this.products,this.searchTerm)    
+    this.products = this.filterService.filterBySearch(this.products,this.searchTerm);
   }
 
 
@@ -94,14 +94,14 @@ export class HomeComponent {
     return false;
   }
 
-  async getCategories(){
-    this.categories = await this.apiService.getCategories();
+  async getCategories(gender: string){
+    this.categories = await this.apiService.getCategoriesByGender(gender);
     this.categories.sort();
   }
 
    
   async applyFilters(){
-    this.products = await this.apiService.filterProducts(this.minPrice, this.maxPrice, this.selectedSize, this.selectedCategory) as IProduct[];
+    this.products = await this.apiService.filterProducts(this.minPrice, this.maxPrice, this.selectedSize, this.selectedCategory, this.selectedCategoryGender) as IProduct[];
   }
 
   onSelectSizeChange(event: any) {
@@ -116,6 +116,13 @@ export class HomeComponent {
     if (event !== null) {
       this.selectedCategory = event;
       console.log(this.selectedCategory);
+    }
+  }
+  async onSelectCategoryGenderChange(event: any) {
+    if (event !== null) {
+      this.selectedCategoryGender = await event;
+      await this.getCategories(this.selectedCategoryGender);
+      console.log(this.selectedCategoryGender);
     }
   }
 

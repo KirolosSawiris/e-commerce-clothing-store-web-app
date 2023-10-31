@@ -65,6 +65,7 @@ export class AppComponent {
   {
     localStorage.clear();
     this.router.navigate(['login']);
+    window.location.reload();
   }
 
   async getuser(){

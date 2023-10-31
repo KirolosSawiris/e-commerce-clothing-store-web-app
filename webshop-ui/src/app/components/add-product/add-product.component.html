@@ -24,22 +24,6 @@
                                     required>
                             </div>
                             <div class="mb-3">
-                                <label for="category" class="form-label">Category:</label>
-                                <select formControlName="category" class="form-select" id="category" name="category"
-                                    required>
-                                    <option [ngValue]="undefined">Select Category</option>
-                                    <option *ngFor="let Category of categories" value="{{Category.id}}">
-                                        {{Category.name}}</option>
-                                    <option [value]="'new'">New Category</option>
-                                </select>
-                            </div>
-                            <div *ngIf="form.get('category')?.value === 'new'" class="mb-3">
-                                <label for="newCategory" class="form-label">New Category name:</label>
-                                <input type="text" formControlName="newCategory" class="form-control" id="newCategory"
-                                    name="newCategory" required>
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="price" class="form-label">Price:</label>
                                 <div class="input-group">
                                     <input type="number" formControlName="price" class="form-control" id="price"
@@ -58,6 +42,21 @@
                                 <label for="color" class="form-label">Color:</label>
                                 <input type="text" formControlName="color" class="form-control" id="color" name="color">
                             </div>
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category:</label>
+                                <select formControlName="category" class="form-select" id="category" name="category"
+                                    required>
+                                    <option [ngValue]="undefined">Select Category</option>
+                                    <option *ngFor="let Category of categories" value="{{Category.id}}">
+                                        {{Category.gender +" "+ Category.name}}</option>
+                                    <option [value]="'new'">New Category</option>
+                                </select>
+                            </div>
+                            <div *ngIf="form.get('category')?.value === 'new'" class="mb-3">
+                                <label for="newCategory" class="form-label">New Category name:</label>
+                                <input type="text" formControlName="newCategory" class="form-control" id="newCategory"
+                                    name="newCategory" required>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3 text-center ">
@@ -71,7 +70,25 @@
                             </div>
                             <div class="mb-3">
                                 <label for="size" class="form-label">Size:</label>
-                                <input type="text" formControlName="size" class="form-control" id="size" name="size">
+                                <select type="text" formControlName="size" class="form-select" id="size" name="size">
+                                    <option [ngValue]="undefined">Select Size</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                            </div>
+                            <div *ngIf="form.get('category')?.value === 'new'" class="mb-3">
+                                <label for="newCategoryGender" class="form-label">New Category Gender:</label>
+                                <select formControlName="newCategoryGender" class="form-select" id="newCategoryGender"
+                                    required>
+                                    <option [ngValue]="undefined">Select Gender</option>
+                                    <option [value]="'Man'">Man</option>
+                                    <option [value]="'Women'">Women</option>
+                                    <option [value]="'Boy'">Boy</option>
+                                    <option [value]="'Girl'">Girl</option>
+                                </select>
                             </div>
                         </div>
                         <div>

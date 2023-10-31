@@ -6,10 +6,7 @@ import com.shop.webshop.models.CartItem;
 import com.shop.webshop.models.Product;
 import com.shop.webshop.models.Role;
 import com.shop.webshop.models.User;
-import com.shop.webshop.repositories.CartItemRepository;
-import com.shop.webshop.repositories.ProductRepository;
-import com.shop.webshop.repositories.RoleRepository;
-import com.shop.webshop.repositories.UserRepository;
+import com.shop.webshop.repositories.*;
 import com.shop.webshop.service.CartService;
 import com.shop.webshop.service.Impl.MailServiceImpl;
 import com.shop.webshop.service.ProductService;
@@ -46,6 +43,9 @@ public class UserController {
 
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Autowired
     private CartItemRepository cartItemRepository;
@@ -91,6 +91,8 @@ public class UserController {
 //            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account Inactive");
 //
 //        }
+        requestedUser.getCart().updateTotal();
+        //cartRepository.save(requestedUser.getCart());
         return requestedUser;
     }
 

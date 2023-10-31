@@ -14,3 +14,8 @@
     top: -5px;
     right: 1px;
 }
+.selected {
+    background-color: #1ef6aabf;
+    color: white;
+  }
+

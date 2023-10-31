@@ -28,11 +28,8 @@ export class ProductComponent {
     this.product = await this.apiService.getProductById(id);
   }
 
-  addToCart(product: any, quantity: number){
-    if(quantity < 1){
-      quantity = 1;
-    }
-    this.authService.addToCart(product,quantity);
+  addToCart(product: any){
+    this.authService.addToCart(product,1);
   }
 
   async getUser(){

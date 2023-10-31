@@ -32,6 +32,7 @@ export interface Cart {
 export interface Category {
   id: number;
   name: string;
+  gender: string;
 }
 
 

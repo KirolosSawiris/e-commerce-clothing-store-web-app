@@ -42,7 +42,7 @@ export class ApiService {
     return res;
   }
 
-  async filterProducts(minPrice: any, maxPrice: any, size: any, category: any){
+  async filterProducts(minPrice: any, maxPrice: any, size: any, category: any, gender: any){
     let params = new HttpParams();
     
     if(minPrice){
@@ -56,7 +56,9 @@ export class ApiService {
     }
     if(category){
       params = params.set('category', category);
-      
+    }
+    if(gender){
+      params = params.set('gender', gender);
     }
     const res = await this.http.get('/server/api/v1/products/filter', { params }).toPromise();
     return res;
@@ -64,6 +66,10 @@ export class ApiService {
 
   async getCategories(){
     const res = await this.http.get('/server/api/v1/categories').toPromise();
+    return res;
+  }
+  async getCategoriesByGender(gender: string){
+    const res = await this.http.get('/server/api/v1/categories/' + gender).toPromise();
     return res;
   }
 
@@ -164,8 +170,9 @@ export class ApiService {
       return this.http.put('/server/api/v1/users/removeFavourite/' + username, body, options);
   }
 
-  async createCategory(categoryName: any, username: string, token: String){
-    const body = {name: categoryName};
+  async createCategory(categoryName: any,categoryGender: any, username: string, token: String){
+    const body = {name: categoryName,
+                  gender: categoryGender};
     let options = {
       headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
       };
@@ -212,6 +219,61 @@ export class ApiService {
       region: region
     };
       return this.http.post('/server/api/v1/users/Register', user);
+  }
+
+  async ShippingCostOptions(user: any, address: string, countryCode: string, city: string, postCode:string, cartNum: any){
+    const headers = new HttpHeaders({
+      'Host': 'api.shipengine.com',
+      'API-Key': 'TEST_hO3DVGfIlKFCJ9gxrK8feEmyGXfKddqW+1/TPwhqD6k',
+      'Content-Type': 'application/json'
+    });
+    let options = {
+      headers: headers
+      };
+    let body = {
+      "rate_options": {
+        "carrier_ids": [
+          "se-5515737"
+        ]
+      },
+      "shipment": {
+        "validate_address": "no_validation",
+        "ship_from": {
+          "name": "The President",
+          "phone": "222-333-4444",
+          "company_name": "",
+          "address_line1": "577 Shinn Street",
+          "city_locality": "New York",
+          "state_province": "NY",
+          "postal_code": "10022",
+          "country_code": "US",
+          "address_residential_indicator": "no"
+        },
+        "ship_to": {
+          "name": "ShipEngine Team",
+          "phone": "222-333-4444",
+          "company_name": "ShipEngine",
+          "address_line1": address,
+          "city_locality": city,
+          "state_province": "",
+          "postal_code": postCode,
+          "country_code": countryCode,
+          "address_residential_indicator": "no"
+        },
+        "packages": [
+          {
+            "package_code": "package",
+            "weight": {
+              "value": cartNum,
+              "unit": "ounce"
+            }
+          }
+        ]
+      }
+    };
+
+    const res = await this.http.post("https://cors-anywhere.herokuapp.com/https://api.shipengine.com/v1/rates/",body,options).toPromise();
+    return res;
   }
 
 }

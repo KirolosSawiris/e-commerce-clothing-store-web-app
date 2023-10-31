@@ -1,5 +1,11 @@
 {
-	"/server": {
+	"/api": {
+    "target": "https://api.shipengine.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/server": {
 		"target": "http://localhost:8080",
 		"secure": false,
     "changeOrigin": true,

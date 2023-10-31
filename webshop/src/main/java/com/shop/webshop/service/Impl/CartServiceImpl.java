@@ -6,8 +6,10 @@ import com.shop.webshop.repositories.CartItemRepository;
 import com.shop.webshop.repositories.CartRepository;
 import com.shop.webshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -22,18 +24,24 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addCartItem(Cart cart, CartItem cartItem) {
-        if(cartItem.getQuantity() < 1){
-            return;
+        if(cartItem.getQuantity() < 1 || cartItem.getProduct().getQuantity() < cartItem.getQuantity()){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Cannot add this quantity to cart");
         }
         cart = cartRepository.getById(cart.getId());
+        //cart.updateTotal();
         cart.setCartTotal(cart.getCartTotal() + cartItem.getQuantity() * cartItem.getProduct().getPrice().doubleValue());
         cartItem.setCart(cart);
         cartRepository.save(cart);
         for(CartItem item : cart.getCartItems()){
             if(item.getProduct().getId() == cartItem.getProduct().getId()){
-                item.setQuantity(item.getQuantity() + cartItem.getQuantity());
-                cartItemRepository.save(item);
-                return;
+                if(cartItem.getProduct().getQuantity() >= item.getQuantity() + cartItem.getQuantity()){
+                    item.setQuantity(item.getQuantity() + cartItem.getQuantity());
+                    cartItemRepository.save(item);
+                    return;
+                }else{
+                    throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Cannot add this quantity to cart");
+                }
+
             }
         }
         cartItemRepository.save(cartItem);
@@ -42,6 +50,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeCartItem(Cart cart, CartItem cartItem) {
         cart = cartRepository.getById(cart.getId());
+        //cart.updateTotal();
         cart.setCartTotal(cart.getCartTotal() - cartItem.getQuantity() * cartItem.getProduct().getPrice().doubleValue());
         cartRepository.save(cart);
         CartItem requested = cartItemRepository.getById(cartItem.getId());

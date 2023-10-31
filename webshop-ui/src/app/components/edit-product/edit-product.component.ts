@@ -21,6 +21,7 @@ export class EditProductComponent {
     title: new FormControl('',Validators.required),
     category: new FormControl('',Validators.required),
     newCategory: new FormControl('',Validators.required),
+    newCategoryGender: new FormControl('',Validators.required),
     price: new FormControl('',Validators.required),
     quantity: new FormControl('',Validators.required),
     color: new FormControl('',Validators.required),
@@ -29,6 +30,7 @@ export class EditProductComponent {
     image: new FormControl('',Validators.required),
   })
   public categories: any;
+  public selectedCategoryGender: any;
   selectedFile: File | null = null;
   productImageUrl: any;
 
@@ -60,6 +62,7 @@ export class EditProductComponent {
     }
     console.log("this part done");
     
+    
   }
 
 
@@ -90,7 +93,7 @@ async submit(){
   this.form.get('image')?.setValue(this.productImageUrl);
   if(this.form.get('category')?.value === 'new'){
     let category : Category;
-    category = await this.authService.createCategory(this.form.get('newCategory')?.value) as Category;
+    category = await this.authService.createCategory(this.form.get('newCategory')?.value, this.form.get('newCategoryGender')?.value) as Category;
     this.form.get('category')?.setValue(String(category.id));
   }
     const product = {

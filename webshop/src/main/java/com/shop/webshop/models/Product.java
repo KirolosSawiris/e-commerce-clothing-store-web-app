@@ -26,14 +26,14 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<OrderItem> orderItems;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<CartItem> cartItems;
 
-    @ManyToMany(mappedBy = "favoriteProducts")
+    @ManyToMany(mappedBy = "favoriteProducts", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<User> favorits;
 

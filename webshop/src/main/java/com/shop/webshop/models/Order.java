@@ -22,8 +22,12 @@ public class Order {
 
     private String razorpayTransactionId;
     private String razorpaySignature;
-    private int amount;
-
+    private double amount;
+    private String customerEmail;
+    private String shippingAddress;
+    private String shippingCountry;
+    private String shippingRegion;
+    private String shippingPostcode;
     private Date createdAt;
 
     private Date expectedAt;
@@ -92,11 +96,11 @@ public class Order {
         this.razorpaySignature = razorpaySignature;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -114,5 +118,45 @@ public class Order {
 
     public void setExpectedAt(Date expectedAt) {
         this.expectedAt = expectedAt;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public String getShippingCountry() {
+        return shippingCountry;
+    }
+
+    public void setShippingCountry(String shippingCountry) {
+        this.shippingCountry = shippingCountry;
+    }
+
+    public String getShippingRegion() {
+        return shippingRegion;
+    }
+
+    public void setShippingRegion(String shippingRegion) {
+        this.shippingRegion = shippingRegion;
+    }
+
+    public String getShippingPostcode() {
+        return shippingPostcode;
+    }
+
+    public void setShippingPostcode(String shippingPostcode) {
+        this.shippingPostcode = shippingPostcode;
     }
 }

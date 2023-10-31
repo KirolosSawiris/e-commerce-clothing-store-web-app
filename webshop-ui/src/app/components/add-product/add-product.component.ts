@@ -22,6 +22,7 @@ export class AddProductComponent {
     title: new FormControl('',Validators.required),
     category: new FormControl('',Validators.required),
     newCategory: new FormControl('',Validators.required),
+    newCategoryGender: new FormControl('',Validators.required),
     price: new FormControl('',Validators.required),
     quantity: new FormControl('',Validators.required),
     color: new FormControl('',Validators.required),
@@ -68,6 +69,8 @@ export class AddProductComponent {
 }
 async getCategories(){
   this.categories = await this.apiService.getCategories();
+  console.log(this.categories);
+  
   this.categories.sort();
 }
 
@@ -82,7 +85,7 @@ async submit(){
   this.form.get('image')?.setValue(this.productImageUrl);
   if(this.form.get('category')?.value === 'new'){
     let category : Category;
-    category = await this.authService.createCategory(this.form.get('newCategory')?.value) as Category;
+    category = await this.authService.createCategory(this.form.get('newCategory')?.value, this.form.get('newCategoryGender')?.value) as Category;
     this.form.get('category')?.setValue(String(category.id));
   }
     const product = {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,12 +15,48 @@ export class CartComponent {
 
   public user: any;
   public res: any;
+  public shippingOptions:any;
+  public address: any;
+  public countryCode: any;
+  public city: any;
+  public postCode: any;
+  public selectedOption: any = null;
+  public shipping = 0.00;
+  public total = 0;
+  public packageWeghit = 0;
+//   public shippingOptions = [{
+//     "shipping_amount": 253.52,
+//     "delivery_days": 1,
+//     "estimated_delivery_date": "2023-10-31T12:00:00Z",
+//     "carrier_delivery_days": "Tomorrow by 12:00 PM",
+//     "service_type": "UPS Worldwide Express®"
+// },
+// {
+//     "shipping_amount": 253.52,
+//     "delivery_days": 1,
+//     "estimated_delivery_date": "2023-10-31T12:00:00Z",
+//     "carrier_delivery_days": "Tomorrow by 12:00 PM",
+//     "service_type": "UPS Worldwide Express®"
+// },
+// {
+//     "shipping_amount": 253.52,
+//     "delivery_days": 1,
+//     "estimated_delivery_date": "2023-10-31T12:00:00Z",
+//     "carrier_delivery_days": "Tomorrow by 12:00 PM",
+//     "service_type": "UPS Worldwide Express®"
+// }];
 
-  constructor(private apiService: ApiService, private router: Router, private authService: AuthService) { }
+  constructor(private apiService: ApiService, private router: Router, private authService: AuthService, private toastr: ToastrService) { }
 
   //check if the token exist, if not then the user need to login first
   async ngOnInit() {
     await this.getUser();
+    this.total = this.user.cart.cartTotal;
+    this.address = this.user.address;
+    this.countryCode = this.user.country;
+    this.city= this.user.region;
+    this.postCode= this.user.postcode;
+    
     if (!localStorage.getItem("access_token")) {
       this.router.navigate(['login']);
     }
@@ -31,17 +68,31 @@ export class CartComponent {
   }
 
   async removeCartItem(item: any) {
+    this.selectedOption = null;
+    this.shippingOptions = null;
+    this.shipping = 0;
     const func = await this.authService.removeFromCart(item);
     this.user.cart.cartItems = this.user.cart.cartItems.filter((i: any) => i.id !== item.id);
-    this.user.cart.cartTotal = this.user.cart.cartTotal - item.product.price * item.quantity;
+    this.user.cart.cartTotal = this.user.cart.cartTotal - item.product.price * item.quantity
+    this.total = this.shipping + this.user.cart.cartTotal;
   }
 
   productClicked(product: any) {
     this.router.navigate(['product', product.id])
   }
 
-  async createOrder(cart: any) {
-    this.res = await this.authService.createOrder(cart);
+  async createOrder() {
+    this.selectedOption.estimated_delivery_date= this.selectedOption.estimated_delivery_date.slice(0, -1) + '+01:00';
+    var order = {
+      amount: this.total.toFixed(2),
+      customerEmail: this.user.email,
+      shippingAddress: this.address,
+      shippingCountry: this.countryCode,
+      shippingRegion: this.city,
+      shippingPostcode: this.postCode,
+      expectedAt: this.selectedOption.estimated_delivery_date
+    }
+    this.res = await this.authService.createOrder(order);
     this.openTransactioModal(this.res);
 
   }
@@ -50,7 +101,7 @@ export class CartComponent {
     var options = {
       order_id: response.razorpayOrderId,
       key: "rzp_test_49qbWP5JOTtLzy",
-      amount: response.amount,
+      amount: this.total*100,
       currency: "USD",
       name: 'Web Shop',
       description: 'Pay for your order',
@@ -84,6 +135,9 @@ export class CartComponent {
   }
 
   async decreaseQuantity(cartItem: any){
+    this.selectedOption = null;
+    this.shippingOptions = null;
+    this.shipping = 0;
     let oneQuantityItem = JSON.parse(JSON.stringify(cartItem));
     oneQuantityItem.quantity = 1;
     console.log(oneQuantityItem);
@@ -94,10 +148,34 @@ export class CartComponent {
       this.user.cart.cartItems = this.user.cart.cartItems.filter((i: any) => i.id !== cartItem.id);
     }
     this.user.cart.cartTotal = this.user.cart.cartTotal - cartItem.product.price;
+    this.total = this.shipping + this.user.cart.cartTotal;
   }
   async increaseQuantity(cartItem: any){
-    await this.authService.addToCart(cartItem.product, 1);
-    cartItem.quantity = cartItem.quantity + 1;
-    this.user.cart.cartTotal = this.user.cart.cartTotal + cartItem.product.price;
+    this.selectedOption = null;
+    this.shippingOptions = null;
+    this.shipping = 0;
+    if(cartItem.product.quantity >= cartItem.quantity + 1){
+      await this.authService.addToCart(cartItem.product, 1);
+      cartItem.quantity = cartItem.quantity + 1;
+      this.user.cart.cartTotal = this.user.cart.cartTotal + cartItem.product.price;
+      this.total = this.shipping + this.user.cart.cartTotal;
+    }else{
+      this.toastr.error('You cannot add more');
+    }
   }
+  async changeOptions(){
+    this.packageWeghit = Number(localStorage.getItem("cartElms"))*5;
+    this.shippingOptions= await this.apiService.ShippingCostOptions(this.user, this.address, this.countryCode, this.city, this.postCode,this.packageWeghit);
+    this.shippingOptions = this.shippingOptions.rate_response.rates;
+    this.shippingOptions.sort((b: any, a: any) => new Date(b.estimated_delivery_date).getTime() - new Date(a.estimated_delivery_date).getTime());
+
+    console.log(this.shippingOptions);
+    
+  }
+  chooseOption(option: any){
+    this.selectedOption = option;
+    this.shipping = option.shipping_amount.amount;
+    this.total = this.user.cart.cartTotal + this.shipping
+  }
+
 }

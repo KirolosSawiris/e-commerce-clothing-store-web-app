@@ -20,12 +20,17 @@ public class CategoryController {
         return categoryRepository.findAll();
     }
 
+    @GetMapping("/{gender}")
+    public List<Category> getByGender(@PathVariable ("gender") String gender){
+        return categoryRepository.findCategoryByGender(gender);
+    }
+
     @PostMapping
     public Category create(@RequestBody final Category category){
         return categoryRepository.saveAndFlush(category);
     }
-    @GetMapping("/{id}")
-    public Category get(@PathVariable ("id") long id){
-        return categoryRepository.getOne(id);
-    }
+//    @GetMapping("/{id}")
+//    public Category get(@PathVariable ("id") long id){
+//        return categoryRepository.getOne(id);
+//    }
 }

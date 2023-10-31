@@ -30,10 +30,11 @@
                                 <i class="bi bi-star-fill"></i>
                             </div>
                             <p class="product-price">{{product.price}}$</p>
+                            <p *ngIf="product.quantity <= 0" class= "bi bi-bag-dash-fill text-danger"> OUT OF STOCK</p>
                         </div>
                         <div class="product-actions mb-3">
                             <button (click)="removeFav(product)" class="btn btn btn-outline-dark  bi bi-suit-heart-fill"></button>
-                            <button (click)="addToCart(product)" class="btn btn btn-outline-dark mx-2 bi bi-cart"> Cart</button>
+                            <button *ngIf="product.quantity > 0" (click)="addToCart(product)" class="btn btn btn-outline-dark mx-2 bi bi-cart"> Cart</button>
                         </div>
                     </div>
                 </div>

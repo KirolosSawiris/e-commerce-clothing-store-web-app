@@ -29,18 +29,17 @@ public class PaymentController {
     private OrderRepository orderRepository;
 
     @PostMapping("/create-payment/{username}")
-    public Order createPayment(@PathVariable ("username") String requestedUsername, @RequestBody Cart cart, Principal principal) {
+    public Order createPayment(@PathVariable ("username") String requestedUsername, @RequestBody Order recivedOrder, Principal principal) {
         String currentUsername = principal.getName();
-        User currentUser = userRepository.findByUsername(currentUsername)
+        User requestedUser = userRepository.findByUsername(requestedUsername)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + currentUsername));
         if(!currentUsername.equals(requestedUsername)){
             throw new AccessDeniedException("cannot access");
         }
-        Order order = paymentService.CreateOrder(cart);
-        order.setUser(currentUser);
+        Order order = paymentService.CreateOrder(requestedUser,recivedOrder);
+        order.setUser(requestedUser);
         orderRepository.save(order);
         return order;
-
     }
 
     @PostMapping("/confirm-payment")

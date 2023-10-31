@@ -65,7 +65,7 @@
             "development": {
               "browserTarget": "webshop-ui:build:development"
             }
-          },
+          },          
           "defaultConfiguration": "development"
         },
         "extract-i18n": {

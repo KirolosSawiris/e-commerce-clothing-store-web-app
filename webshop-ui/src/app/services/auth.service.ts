@@ -104,12 +104,16 @@ export class AuthService {
   }
   addToCart(product: any, quantity: number){
     this.apiService.addToCart(product, quantity, String(localStorage.getItem("username")), String(localStorage.getItem("access_token"))).pipe(catchError((error: HttpErrorResponse)=> {
+      if(error.status == 406){
+        this.toastr.error("You cannot add more");
+      }else{
       Swal.fire({
         icon: 'info',
         title: 'You are not logged in',
         text: 'Please login to add this item to your cart',
         confirmButtonColor: '#212529'
       });
+    }
       return throwError(()=> new Error('wrong username or password'));
     })).subscribe(() => {this.toastr.success('Added to Cart successfully');});
   }
@@ -164,8 +168,8 @@ export class AuthService {
     return res;
   }
 
-  async createCategory(categoryName: any){
-    const res = await this.apiService.createCategory(categoryName, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
+  async createCategory(categoryName: any, categoryGender: any){
+    const res = await this.apiService.createCategory(categoryName, categoryGender, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
     return res;
   }
   async createProduct(product: any){
@@ -224,7 +228,7 @@ export class AuthService {
         Swal.fire({
           icon: 'error',
           title: 'Could not delete the product',
-          text: 'Make sure that you have the preveldges to delete products and try again later',
+          text: 'Cannot delete product; it is referenced in orders',
           confirmButtonText: 'OK',
           confirmButtonColor: '#212529'
         });

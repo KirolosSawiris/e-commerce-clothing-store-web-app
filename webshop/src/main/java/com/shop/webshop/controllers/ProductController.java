@@ -7,6 +7,7 @@ import com.shop.webshop.repositories.ProductRepository;
 import com.shop.webshop.service.ProductService;
 import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class ProductController {
     @GetMapping
     public List<Product> list()
     {
-        return productRepository.findAll();
+        return productRepository.findAll(Sort.by("id"));
     }
 
     @PostMapping
@@ -65,13 +66,13 @@ public class ProductController {
     public ResponseEntity<List<Product>> filterProducts(@RequestParam(required = false) BigDecimal minPrice,
                                                         @RequestParam(required = false) BigDecimal maxPrice,
                                                         @RequestParam(required = false) String category,
-                                                        @RequestParam(required = false) String color,
+                                                        @RequestParam(required = false) String gender,
                                                         @RequestParam(required = false) String size) {
         List<Product> products = productRepository.findAll();
         List<Product> results = new ArrayList<>();
         for(Product product : products){
                 if(category != null){
-                    if(!product.getCategory().getName().equals(category)){
+                    if(!product.getCategory().getId().toString().equals(category)){
                         continue;
                     }
                 }
@@ -90,8 +91,8 @@ public class ProductController {
                         continue;
                     }
                 }
-                if(color != null){
-                    if(!product.getColor().equals(color)){
+                if(gender != null){
+                    if(!product.getCategory().getGender().equals(gender)){
                         continue;
                     }
                 }

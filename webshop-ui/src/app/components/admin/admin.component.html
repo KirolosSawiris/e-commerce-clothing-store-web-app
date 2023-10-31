@@ -12,7 +12,7 @@
                   <div class="col-md-6">
                     <h6 class="card-subtitle mb-2 text-muted">Order ID: {{ order.order.id }}</h6>
                     <p class="card-text">Status: {{ order.order.status}}</p>
-                    <p class="card-text">Amount: ${{ order.order.amount/100}}</p>
+                    <p class="card-text">Amount: ${{ order.order.amount}}</p>
                     <h6>Order Items:</h6>
                     <ul>
                       <li *ngFor="let item of order.order.orderItems">

@@ -17,6 +17,8 @@ public class Category {
 
     private String name;
 
+    private String gender;
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Product> products;
@@ -45,4 +47,11 @@ public class Category {
         this.products = products;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }
