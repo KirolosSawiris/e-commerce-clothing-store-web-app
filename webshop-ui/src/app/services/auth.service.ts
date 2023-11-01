@@ -153,8 +153,23 @@ export class AuthService {
     return res;
   }
 
-  async getOrder(){
+  async getOrders(){
     const res = await this.apiService.getOrders(String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
+    return res;
+  }
+  async getOrder(orderId: any){
+    const res = await this.apiService.getOrder(orderId, String(localStorage.getItem("username")), String(localStorage.getItem("access_token")));
+    return res;
+  }
+
+  async updateOrder(order: any){
+    const res = await this.apiService.updateOrder(order, String(localStorage.getItem("access_token")));
+    this.toastr.success('Status successfully updated');
+    return res;
+  }
+
+  async filterOrders(minPayment: any, maxPayment: any, status: any, customerEmail: any){
+    const res = await this.apiService.filterOrders(minPayment, maxPayment, status, customerEmail, String(localStorage.getItem("access_token")));
     return res;
   }
 

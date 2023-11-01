@@ -1,9 +1,6 @@
 package com.shop.webshop.controllers;
 
-import com.shop.webshop.models.Cart;
-import com.shop.webshop.models.Order;
-import com.shop.webshop.models.PaymentResponse;
-import com.shop.webshop.models.User;
+import com.shop.webshop.models.*;
 import com.shop.webshop.repositories.OrderRepository;
 import com.shop.webshop.repositories.UserRepository;
 import com.shop.webshop.service.Impl.PaymentService;
@@ -42,9 +39,14 @@ public class PaymentController {
         return order;
     }
 
-    @PostMapping("/confirm-payment")
+    @PostMapping("/confirm-payment") //se-4416293876
     public Order confirmPayment(@RequestBody PaymentResponse paymentResponse) {
         return paymentService.confirmPayment(paymentResponse);
+    }
+
+    @GetMapping("/shipping/{rateId}")
+    public Shipment shipping(@PathVariable ("rateId") String rateId){
+        return paymentService.shipping(rateId);
     }
 
 

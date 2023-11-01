@@ -4,16 +4,15 @@ import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.Utils;
 import com.shop.webshop.models.*;
-import com.shop.webshop.repositories.CartItemRepository;
 import com.shop.webshop.repositories.OrderItemRepository;
 import com.shop.webshop.repositories.OrderRepository;
-import com.shop.webshop.service.Impl.CartServiceImpl;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Calendar;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @Transactional
@@ -29,9 +28,24 @@ public class PaymentService {
     private static final String  Key_Secret = "XwXgo1jNEcLCpl8aZPKxMEAN";
     private static final String Currency = "USD";
 
-    public com.shop.webshop.models.Order CreateOrder (User user, com.shop.webshop.models.Order recivedOrder) {
 
+    private final RestTemplate restTemplate;
+
+    public PaymentService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.build();
+    }
+
+
+    public com.shop.webshop.models.Order CreateOrder (User user, com.shop.webshop.models.Order recivedOrder) {
         try {
+            Shipment shipment = shipping(recivedOrder.getShipment().getRate_id());
+            shipment.setShipping_address(recivedOrder.getShipment().getShipping_address());
+            shipment.setShipping_country(recivedOrder.getShipment().getShipping_country());
+            shipment.setShipping_postcode(recivedOrder.getShipment().getShipping_postcode());
+            shipment.setShipping_region(recivedOrder.getShipment().getShipping_region());
+            shipment.setOrder(recivedOrder);
+            recivedOrder.setShipment(shipment);
+            recivedOrder.setAmount(shipment.getAmount()+user.getCart().getCartTotal());
             RazorpayClient razorpayClient = new RazorpayClient(Key, Key_Secret);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("amount", (recivedOrder.getAmount())*100);
@@ -40,10 +54,8 @@ public class PaymentService {
             com.shop.webshop.models.Order newOrder = ConvertCartToOrder(order,recivedOrder, user.getCart());
             return newOrder;
         }catch (Exception e){
-            System.out.println(e);
-            System.out.println(e);
+            throw new RuntimeException("Something went wrong in the Order creation");
         }
-        return null;
     }
 
     public com.shop.webshop.models.Order ConvertCartToOrder(Order order, com.shop.webshop.models.Order recivedOrder, Cart cart){
@@ -96,6 +108,34 @@ public class PaymentService {
             orderRepository.delete(order);
         }
         return order;
+    }
+    public Shipment shipping(String rateId){
+        String apiUrl = "https://api.shipengine.com/v1/rates/" +rateId ;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("API-Key", "TEST_hO3DVGfIlKFCJ9gxrK8feEmyGXfKddqW+1/TPwhqD6k");
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Shipment> responseEntity = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.GET,
+                requestEntity,
+                Shipment.class
+        );
+
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            //String jsonResponse = responseEntity.getBody();
+            Shipment shipment = responseEntity.getBody();
+            shipment.setAmount(shipment.getShipping_amount().getAmount());
+            return shipment;
+            // Process the attributes as needed
+        } else {
+            // Handle the response status other than OK
+            return null;
+        }
+
     }
 
 }

@@ -91,7 +91,7 @@ public class UserController {
 //            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account Inactive");
 //
 //        }
-        requestedUser.getCart().updateTotal();
+        //requestedUser.getCart().updateTotal();
         //cartRepository.save(requestedUser.getCart());
         return requestedUser;
     }

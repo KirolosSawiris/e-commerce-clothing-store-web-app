@@ -69,6 +69,10 @@ public class Cart {
     }
 
     public double getCartTotal() {
+        cartTotal = 0;
+        for(CartItem cartItem: this.cartItems){
+            cartTotal = cartTotal + (cartItem.getQuantity() * cartItem.getProduct().getPrice().doubleValue());
+        }
         return cartTotal;
     }
 

@@ -30,6 +30,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     PaymentComponent,
     AdminDashboardComponent,
     EditProductComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule,

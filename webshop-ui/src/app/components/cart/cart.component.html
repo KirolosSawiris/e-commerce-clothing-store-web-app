@@ -88,7 +88,7 @@
                                             <h2 class="mb-4">Shipping Options</h2>
                                             <span class="mt-3">
                                                 <button style="width: 198px; white-space: nowrap;" class="btn-outline-dark rounded" *ngFor="let option of shippingOptions" (click)="chooseOption(option)" [ngClass]="{'selected': selectedOption === option}">
-                                                    <strong>${{ option.shipping_amount.amount.toFixed(2) }}</strong><br><em style="font-size: 15px;">{{option.carrier_delivery_days}}</em><br>{{ option.service_type }}   
+                                                    <strong>${{ option.shipping_amount.amount.toFixed(2) }}</strong><br><em style="font-size: 14px;">{{option.carrier_delivery_days}}</em><br>{{ option.service_type }}   
                                                 </button>
                                             </span>
 

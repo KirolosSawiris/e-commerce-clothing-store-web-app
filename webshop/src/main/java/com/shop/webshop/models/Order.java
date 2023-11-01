@@ -15,22 +15,13 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String status;
-
+    private String customerEmail;
     private String razorpayOrderId;
-
     private String razorpayTransactionId;
     private String razorpaySignature;
     private double amount;
-    private String customerEmail;
-    private String shippingAddress;
-    private String shippingCountry;
-    private String shippingRegion;
-    private String shippingPostcode;
     private Date createdAt;
-
-    private Date expectedAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -39,6 +30,17 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Shipment shipment;
+
+    public Shipment getShipment() {
+        return shipment;
+    }
+
+    public void setShipment(Shipment shipment) {
+        this.shipment = shipment;
+    }
 
     public Long getId() {
         return id;
@@ -112,51 +114,11 @@ public class Order {
         this.createdAt = createdAt;
     }
 
-    public Date getExpectedAt() {
-        return expectedAt;
-    }
-
-    public void setExpectedAt(Date expectedAt) {
-        this.expectedAt = expectedAt;
-    }
-
     public String getCustomerEmail() {
         return customerEmail;
     }
 
     public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
-    }
-
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
-
-    public String getShippingCountry() {
-        return shippingCountry;
-    }
-
-    public void setShippingCountry(String shippingCountry) {
-        this.shippingCountry = shippingCountry;
-    }
-
-    public String getShippingRegion() {
-        return shippingRegion;
-    }
-
-    public void setShippingRegion(String shippingRegion) {
-        this.shippingRegion = shippingRegion;
-    }
-
-    public String getShippingPostcode() {
-        return shippingPostcode;
-    }
-
-    public void setShippingPostcode(String shippingPostcode) {
-        this.shippingPostcode = shippingPostcode;
     }
 }

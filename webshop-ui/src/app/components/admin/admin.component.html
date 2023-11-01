@@ -5,31 +5,58 @@
       <div class="col">
         <div class="card bg-white text-dark">
           <div class="card-body">
-            <h5 class="card-title">All Orders</h5>
-            <div *ngFor="let order of orders" class="card mb-4">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <h6 class="card-subtitle mb-2 text-muted">Order ID: {{ order.order.id }}</h6>
-                    <p class="card-text">Status: {{ order.order.status}}</p>
-                    <p class="card-text">Amount: ${{ order.order.amount}}</p>
-                    <h6>Order Items:</h6>
-                    <ul>
-                      <li *ngFor="let item of order.order.orderItems">
-                        Product: {{ item.product.title }} - Quantity: {{ item.quantity }}
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-md-6">
-                    <h6>Customer Information:</h6>
-                    <p>Customer: {{ order.firstName }} {{ order.lastName }}</p>
-                    <p>Email: {{ order.email }}</p>
-                    <p>Address: {{ order.address }}</p>
-                    <p>Postcode: {{order.postcode}}</p>
-                  </div>
-                </div>
+            <h5 class="card-title">Filter Orders</h5>
+            <div class="row my-4" style="position: relative; right: -25px;">
+              
+              <div class="col-md-2">
+                <select class="form-select"[ngModel]="selectedStatus" (ngModelChange)="onSelectStatusChange($event)">
+                    <option [ngValue]="undefined">Select Status</option>
+                    <option value="created">created</option>
+                    <option value="paid">paid</option>
+                    <option value="shipped">shipped</option>
+                    <option value="delivered">delivered</option>
+                </select>
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" placeholder="Customer Email" [(ngModel)]="customerEmail">
+  </div>
+
+              <div class="col-md-2">
+                      <input type="number" class="form-control" id="minPrice" placeholder="Min Payment" [(ngModel)]="minPayment" >
               </div>
-            </div>
+              <div class="col-md-2">
+                      <input type="number" class="form-control" id="maxPrice" placeholder="Max Payment" [(ngModel)]="maxPayment">
+              </div>
+              <div class="col-md-2">
+                  <button class="btn btn btn-outline-dark" (click)="applyFilters()" >Apply Filters</button>
+              </div>
+          </div>
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Customer Email</th>
+                  <th scope="col">Payment</th>
+                  <th scope="col">Order date</th>
+                  <th scope="col">Expected Delivery Date</th>
+                  <th scope="col">City</th>
+                  <th scope="col">Shipping Service</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="tableRow" *ngFor="let order of orders" (click)="showOrderDetails(order)">
+                  <th scope="col">{{order.id}}</th>
+                  <th scope="col">{{order.status}}</th>
+                  <th scope="col">{{order.customerEmail}}</th>
+                  <th scope="col">{{order.amount.toFixed(2)}}$</th>
+                  <th style="font-size: 14px;" scope="col">{{order.createdAt | date:'medium' : 'UTC'}}</th>
+                  <th style="font-size: 14px;" scope="col">{{order.shipment.estimated_delivery_date | date:'medium': 'UTC'}}</th>
+                  <th scope="col">{{order.shipment.shipping_region}}</th>
+                  <th scope="col">{{order.shipment.service_type}}</th>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -140,6 +140,40 @@ export class ApiService {
     const res = await this.http.get("/server/api/v1/orders", options).toPromise();
     return res;
   }
+  async getOrder(orderId: any, username: string, token: String){
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+    const res = await this.http.get("/server/api/v1/orders/"+ orderId, options).toPromise();
+    return res;
+  }
+  async updateOrder(order: any, token: String){
+    let options = {
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+ token)
+      };
+    const res = await this.http.put("/server/api/v1/orders/update",order, options).toPromise();
+    return res;
+  }
+  async filterOrders(minPayment: any, maxPayment: any, status: any, customerEmail: any, token: String){
+
+    const headers = new HttpHeaders()
+      .append('Authorization', 'Bearer '+ token);
+    let params = new HttpParams();
+    if(minPayment){
+      params = params.set('minPayment', minPayment);
+    }
+    if(maxPayment){
+      params = params.set('maxPayment', maxPayment);
+    }
+    if(status){
+      params = params.set('status', status);
+    }
+    if(customerEmail){
+      params = params.set('customerEmail', customerEmail);
+    }
+    const res = await this.http.get("/server/api/v1/orders/filter",{params, headers}).toPromise();
+    return res;
+  }
 
   async confirmOrder(paymentResponse: any, token: String){
     const body = paymentResponse;
@@ -272,7 +306,7 @@ export class ApiService {
       }
     };
 
-    const res = await this.http.post("https://cors-anywhere.herokuapp.com/https://api.shipengine.com/v1/rates/",body,options).toPromise();
+    const res = await this.http.post("https://corsproxy.io/?https://api.shipengine.com/v1/rates/",body,options).toPromise();
     return res;
   }
 

@@ -1,0 +1,128 @@
+<section class="py-3 bg-dark">
+    <h1 class="text-center my-3 text-white">Order Details</h1>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col">
+          <div class="card bg-white text-dark">
+            <div class="card-body">
+              <!-- order-detail.component.html -->
+
+<!-- order-detail.component.html -->
+
+<div class="container">
+    <div class="order-details py-3">
+  
+      <!-- Order Information -->
+      <div class="row">
+      <div class="col-md-5">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3>Order Information</h3>
+        </div>
+        <div class="card-body">
+          <p><strong>Status: </strong>
+            <select type="text" [(ngModel)]="order.status" (ngModelChange)="onSelectStatusChange()">
+            <option value="created">created</option>
+            <option value="paid">paid</option>
+            <option value="shipped">shipped</option>
+            <option value="delivered">delivered</option>
+        </select></p>
+
+          <p><strong>Customer Email:</strong> {{ order.customerEmail }}</p>
+          <p><strong>Order Date:</strong> {{ order.createdAt | date: 'medium' : 'UTC' }}</p>
+          <p><strong>Total Amount:</strong> ${{ order.amount }}</p>
+        </div>
+    </div>
+      </div>
+      <div class="col-md-7">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3>Additional Information</h3>
+        </div>
+        <div class="card-body">
+          <p><strong>Order ID:</strong> {{ order.id }}</p>
+          <p><strong>Razorpay Order ID:</strong> {{ order.razorpayOrderId }}</p>
+          <p><strong>Razorpay Transaction ID:</strong> {{ order.razorpayTransactionId }}</p>
+          <strong>Razorpay Signature: </strong><p style="font-size: 12px; display: inline;">{{ order.razorpaySignature }}</p>
+          <p></p>
+          
+        </div>
+    </div>
+      </div>
+      </div>
+  
+      <!-- Order Items -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3>Order Items</h3>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>size</th>
+                <th>category</th>
+                <th>color</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of order.orderItems">
+                <td>{{ item.product.id }}</td>
+                <td>{{ item.product.title }}</td>
+                <td>${{ item.product.price }}</td>
+                <td>{{ item.product.size }}</td>
+                <td>{{ item.product.category.gender + " " + item.product.category.name}}</td>
+                <td>{{ item.product.color }}</td>
+                <td>{{ item.quantity }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+      <!-- Shipment Details -->
+      <div class="row">
+      <div class="col-md-6">
+        <div class="card mb-4 mr-1">
+        <div class="card-header">
+          <h3>Shipment Details</h3>
+        </div>
+        <div class="card-body">
+          <p><strong>Shipment Amount:</strong> ${{ order.shipment.amount }}</p>
+          <p><strong>Delivery Days:</strong> {{ order.shipment.delivery_days | date: 'medium' : 'UTC' }}</p>
+          <p><strong>Estimated Delivery Date:</strong> {{ order.shipment.estimated_delivery_date | date: 'medium' : 'UTC' }}</p>
+          <p><strong>Service Type:</strong> {{ order.shipment.service_type }}</p>
+        </div>
+        </div>
+      </div>
+      <div class=" col-md-6">
+        <div class="card mb-4 ml-1">
+        <div class="card-header">
+      <h3>Shipment Address</h3>
+    </div>
+    <div class="card-body">
+      <p><strong>Adress:</strong> {{ order.shipment.shipping_address }}</p>
+      <p><strong>City:</strong> {{ order.shipment.shipping_region }}</p>
+      <p><strong>Postal Code:</strong> {{ order.shipment.shipping_postcode }}</p>
+      <p><strong>Country Code:</strong> {{ order.shipment.shipping_country }}</p>
+    </div>
+    </div>
+    </div>
+      </div>
+  
+      <!-- Additional Information -->
+      
+    </div>
+  </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

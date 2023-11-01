@@ -84,13 +84,14 @@ export class CartComponent {
   async createOrder() {
     this.selectedOption.estimated_delivery_date= this.selectedOption.estimated_delivery_date.slice(0, -1) + '+01:00';
     var order = {
-      amount: this.total.toFixed(2),
       customerEmail: this.user.email,
-      shippingAddress: this.address,
-      shippingCountry: this.countryCode,
-      shippingRegion: this.city,
-      shippingPostcode: this.postCode,
-      expectedAt: this.selectedOption.estimated_delivery_date
+      shipment: {
+        rate_id: this.selectedOption.rate_id,
+        shipping_address: this.address,
+        shipping_country: this.countryCode,
+        shipping_region: this.city,
+        shipping_postcode: this.postCode
+      }
     }
     this.res = await this.authService.createOrder(order);
     this.openTransactioModal(this.res);

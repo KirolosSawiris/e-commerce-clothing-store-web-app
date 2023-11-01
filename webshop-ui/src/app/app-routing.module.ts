@@ -16,6 +16,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'product/:productId',
     component: ProductComponent
+  },
+  {
+    path: 'order/:orderId',
+    component: OrderDetailsComponent
   },
   {
     path: 'editProduct/:productId',

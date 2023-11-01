@@ -1,0 +1,4 @@
+.tableRow:hover {
+    background-color: #e0e0e0; /* Change the background color on hover */
+    cursor: pointer; /* Change the cursor to a pointer on hover */
+  }
