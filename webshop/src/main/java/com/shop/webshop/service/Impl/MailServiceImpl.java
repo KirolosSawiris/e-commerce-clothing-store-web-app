@@ -75,7 +75,6 @@ public class MailServiceImpl {
         String sentTo = user.getEmail();
 
         SendMessage(sentTo, subject, body);
-
         user.setPassword(password);
         userService.saveUser(user);
     }

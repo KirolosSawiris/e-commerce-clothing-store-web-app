@@ -1,7 +1,7 @@
 import { Category } from "./iUser";
 
 export interface IProduct {
-    id: number;
+  id: number;
   title: string;
   price: number;
   quantity: number;

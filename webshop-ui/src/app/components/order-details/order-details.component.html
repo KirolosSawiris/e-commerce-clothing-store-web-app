@@ -21,15 +21,15 @@
         </div>
         <div class="card-body">
           <p><strong>Status: </strong>
-            <select type="text" [(ngModel)]="order.status" (ngModelChange)="onSelectStatusChange()">
+            <select *ngIf="isAdmin" type="text" [(ngModel)]="order.status" (ngModelChange)="onSelectStatusChange()">
             <option value="created">created</option>
             <option value="paid">paid</option>
             <option value="shipped">shipped</option>
             <option value="delivered">delivered</option>
-        </select></p>
+        </select><em *ngIf="!isAdmin"> {{order.status}}</em></p> 
 
           <p><strong>Customer Email:</strong> {{ order.customerEmail }}</p>
-          <p><strong>Order Date:</strong> {{ order.createdAt | date: 'medium' : 'UTC' }}</p>
+          <p><strong>Order Date:</strong> {{ order.createdAt | date: 'medium'}}</p>
           <p><strong>Total Amount:</strong> ${{ order.amount }}</p>
         </div>
     </div>
@@ -93,7 +93,7 @@
         </div>
         <div class="card-body">
           <p><strong>Shipment Amount:</strong> ${{ order.shipment.amount }}</p>
-          <p><strong>Delivery Days:</strong> {{ order.shipment.delivery_days | date: 'medium' : 'UTC' }}</p>
+          <p><strong>Delivery Days:</strong> {{ order.shipment.delivery_days}}</p>
           <p><strong>Estimated Delivery Date:</strong> {{ order.shipment.estimated_delivery_date | date: 'medium' : 'UTC' }}</p>
           <p><strong>Service Type:</strong> {{ order.shipment.service_type }}</p>
         </div>

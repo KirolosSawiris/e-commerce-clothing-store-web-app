@@ -243,7 +243,7 @@ export class AuthService {
         Swal.fire({
           icon: 'error',
           title: 'Could not delete the product',
-          text: 'Cannot delete product; it is referenced in orders',
+          text: 'something wrong happened',
           confirmButtonText: 'OK',
           confirmButtonColor: '#212529'
         });

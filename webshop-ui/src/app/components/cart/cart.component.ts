@@ -1,8 +1,11 @@
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Iorder } from 'src/app/model/iorder';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 
 declare var Razorpay: any;
 
@@ -46,7 +49,7 @@ export class CartComponent {
 //     "service_type": "UPS Worldwide Express®"
 // }];
 
-  constructor(private apiService: ApiService, private router: Router, private authService: AuthService, private toastr: ToastrService) { }
+  constructor(private apiService: ApiService, private router: Router, private authService: AuthService, private toastr: ToastrService, private datePipe: DatePipe) { }
 
   //check if the token exist, if not then the user need to login first
   async ngOnInit() {
@@ -126,12 +129,38 @@ export class CartComponent {
   }
   async processResponse(resp: any) {
     console.log(resp);
-    const confirmRes = await this.authService.confirmOrder(resp);
-    if (confirmRes) {
-
+    const order = await this.authService.confirmOrder(resp) as Iorder;
+    if (order) {
       for (let cartItem of this.user.cart.cartItems) {
         await this.removeCartItem(cartItem);
       }
+      const createDate = new Date(order.createdAt);
+      const createdAt = this.datePipe.transform(createDate, 'medium');
+      const deliveryDate = new Date(order.shipment.estimated_delivery_date);
+      const estimated_delivery_date = this.datePipe.transform(deliveryDate, 'medium', 'UTC');
+      Swal.fire({
+        title: "Order Placed Successfully",
+        icon: "success",
+        html: `<div class="order-details">
+      
+        <div>
+          <p><strong>Order ID:</strong> ${order.id}</p>
+          <p><strong>Status:</strong> ${ order.status }</p>
+          <p><strong>Customer Email:</strong> ${ order.customerEmail }</p>
+          <p><strong>Order Date:</strong> ${ createdAt}</p>
+        </div>
+        <div>
+          <h4>Shipment Details</h4>
+          <p><strong>Shipping Address:</strong> ${ order.shipment.shipping_address }, ${ order.shipment.shipping_region }, ${ order.shipment.shipping_postcode }, ${ order.shipment.shipping_country }</p>
+          <p><strong>Estimated Delivery Date:</strong> ${estimated_delivery_date }</p>
+          <p><strong>Shipping Service:</strong> ${ order.shipment.service_type }</p>
+        </div>
+        <div>
+          <p><strong>Total:</strong> ${order.amount}</p>
+        </div>
+      </div>`,
+        confirmButtonText: "OK",
+        confirmButtonColor: '#212529'});
     }
   }
 

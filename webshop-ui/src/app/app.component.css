@@ -13,10 +13,27 @@
     position: absolute;
     z-index: 1;
     background-color: white;
+    border-radius: 5px;
   }
   
   .lioption {
     padding: 8px;
     cursor: pointer;
     width: 380px;
+    border-radius: 5px;
+  }
+  
+  .lioptionNav {
+    padding: 8px;
+    cursor: pointer;
+    width: 103px;
+    border-radius: 5px;
+  }
+
+  .lioptionNav:hover {
+    background-color: #e0e0e0; /* Change the background color on hover */
+  }
+
+  .lioption:hover {
+    background-color: #e0e0e0; /* Change the background color on hover */
   }

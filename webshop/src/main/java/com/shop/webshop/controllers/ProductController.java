@@ -33,7 +33,7 @@ public class ProductController {
     @GetMapping
     public List<Product> list()
     {
-        return productRepository.findAll(Sort.by("id"));
+        return productRepository.findProductByActive(true, Sort.by("id"));
     }
 
     @PostMapping
@@ -47,7 +47,13 @@ public class ProductController {
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable ("id") long id){
-         productRepository.deleteById(id);
+        try {
+            productRepository.deleteById(id);
+        }catch (Exception e){
+            Product product = productRepository.getById(id);
+            product.setActive(false);
+            productRepository.save(product);
+        }
     }
 
 //    @PatchMapping(path = "/upload/{id}")

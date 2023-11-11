@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Route, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -12,20 +12,25 @@ import { Route, Router } from '@angular/router';
 export class AdminComponent implements OnInit{
 
   public orders: any;
+  public user: any;
   public selectedStatus: any;
   public customerEmail: any;
   public minPayment: any;
   public maxPayment: any;
 
-  constructor(private authService: AuthService, private router: Router){}
+  constructor(private authService: AuthService, private router: Router, private arouter: ActivatedRoute){}
   async ngOnInit() {
-    await this.getOrders();
+    this.user = await this.authService.getUser();
+    const username = this.arouter.snapshot.paramMap.get("username");
+    if(username){
+      this.orders = this.user.orders;
+    }
+    else{
+      this.orders = await this.authService.getOrders();
+    }
+    
     console.log("order",this.orders);
     
-  }
-
-  async getOrders(){
-    this.orders = await this.authService.getOrders();
   }
 
   onSelectStatusChange(event: any) {

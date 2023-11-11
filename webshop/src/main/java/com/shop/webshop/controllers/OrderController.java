@@ -1,21 +1,13 @@
 package com.shop.webshop.controllers;
 
-import com.shop.webshop.models.CartItem;
 import com.shop.webshop.models.Order;
-import com.shop.webshop.models.OrderTicket;
-import com.shop.webshop.models.User;
 import com.shop.webshop.repositories.OrderRepository;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Column;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/orders")

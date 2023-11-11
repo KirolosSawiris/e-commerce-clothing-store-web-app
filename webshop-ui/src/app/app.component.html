@@ -16,7 +16,7 @@
             <div class="form-inline me-auto">
                 <div class="input-group">
                     <div class="dropdown">
-                        <input class="form-control mr-sm-2" style="width: 350px; position: relative; left: 7px;"
+                        <input class="form-control mr-sm-2" style="width: 390px; position: relative; left: 7px;"
                             type="search" (focus)="onInputFocus()" (blur)="onInputBlur()" (keyup)="onKeyUp($event)"
                             placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
                         <ul *ngIf="showDropdown" class="uloption">
@@ -33,13 +33,20 @@
             <div class="d-flex" style="position:relative; right:-75px;">
                 <button *ngIf="logedIn && !isAdmin" onclick="window.location.href='/saved';" class="btn btn-outline-dark me-1"
                     type="submit"><i class="bi bi-suit-heart-fill me-1"></i>Saved</button>
-                    <button *ngIf="isAdmin" onclick="window.location.href='/admin';" class="btn btn-outline-dark me-1"
+                    <button *ngIf="isAdmin" onclick="window.location.href='/orders';" class="btn btn-outline-dark me-1"
                     type="submit"><i class="bi bi-list-check me-1"></i>Orders</button>
                     <button *ngIf="isAdmin" onclick="window.location.href='/addProduct';" class="btn btn-outline-dark me-1"
                     type="submit"><i class="bi bi-plus-circle me-1"></i>Add Product</button>
-                <button *ngIf="logedIn" onclick="window.location.href='/profile';"
-                    class="dropdown btn btn-outline-dark me-1" type="submit"><i
-                        class="bi bi-person-circle me-1"></i>Account</button>
+                    <div class="dropdown">
+                <div #specificDiv *ngIf="logedIn"
+                    class=" btn btn-outline-dark me-1" type="submit"><i
+                        class="bi bi-person-circle me-1"></i>Account</div>
+                        <ul *ngIf="showAcountDropdown" class="uloption">
+                                <li class="lioptionNav" onclick="window.location.href='/profile';">Profile</li>
+                                <li class="lioptionNav"(click)="showOrders()">Orders</li>
+                                <li class="lioptionNav" (click)="LogOut()">LogOut</li>
+                        </ul>
+                    </div>
                 <button *ngIf="logedIn && !isAdmin" onclick="window.location.href='/cart';" class="btn btn-outline-dark me-1"
                     type="submit"><i class="bi-cart me-1"></i>Cart<span
                         class="badge bg-dark text-white ms-1 rounded-pill">{{ItemsNum}}</span></button>
@@ -47,8 +54,6 @@
                     type="submit"><i class="bi bi-box-arrow-in-left me-1"></i>login</button>
                 <button *ngIf="!logedIn" onclick="window.location.href='/Register';" class="btn btn-outline-dark me-1"
                     type="submit"><i class="bi bi-plus-circle me-1"></i>Register</button>
-                <button *ngIf="logedIn" (click)="LogOut()" title="Log Out" class="btn btn-outline-dark me-1"
-                    type="submit"><i class="bi bi-box-arrow-right"></i></button>
             </div>
         </div>
     </div>

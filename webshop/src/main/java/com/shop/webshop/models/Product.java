@@ -23,6 +23,9 @@ public class Product {
     private String size;
     private String description;
     private String image;
+    @Column(nullable = false)
+    private boolean active = true;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -36,6 +39,14 @@ public class Product {
     @ManyToMany(mappedBy = "favoriteProducts", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<User> favorits;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public List<User> getFavorits() {
         return favorits;

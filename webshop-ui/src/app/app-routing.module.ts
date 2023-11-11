@@ -76,7 +76,11 @@ const routes: Routes = [
     component: PaymentComponent
   },
   {
-    path: 'admin',
+    path: 'orders',
+    component: AdminComponent
+  },
+  {
+    path: 'orders/:username',
     component: AdminComponent
   },
   {

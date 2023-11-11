@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';  
 import { BrowserModule } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,11 +26,13 @@ export class AppComponent {
   public searchControl = new FormControl();
   public products: any;
   public autocomProducts: any;
+  public showAcountDropdown = false;
   public showDropdown = false;
   public isAdmin = false
+  @ViewChild('specificDiv') specificDiv: any;
 
 
-  constructor(private router: Router, private apiService: ApiService, private arouter:ActivatedRoute, private authService: AuthService, private filterService : FilterService){
+  constructor(private router: Router, private apiService: ApiService, private arouter:ActivatedRoute, private authService: AuthService, private filterService : FilterService, private eRef: ElementRef){
     
     
   }
@@ -64,7 +66,6 @@ export class AppComponent {
   LogOut()
   {
     localStorage.clear();
-    this.router.navigate(['login']);
     window.location.reload();
   }
 
@@ -126,5 +127,31 @@ export class AppComponent {
 
   selectOption(option: any){    
     this.searchText = option;
+  }
+
+  swichAccountDrobdown(){
+    if(this.showAcountDropdown){
+      this.showAcountDropdown = false;
+    }else{
+      this.showAcountDropdown = true;
+    }
+  }
+
+  showOrders(){
+    this.router.navigate(['orders',localStorage.getItem('username')]);
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event:Event) {
+    if(this.specificDiv){
+      if(this.specificDiv.nativeElement.contains(event.target)){
+        this.swichAccountDrobdown();
+      }
+      else{
+        if(this.showAcountDropdown){
+          this.showAcountDropdown = false;
+        }
+      }
+    }
   }
 }
