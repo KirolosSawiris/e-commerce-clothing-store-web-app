@@ -8,7 +8,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { CartComponent } from './components/cart/cart.component';
@@ -72,7 +72,10 @@ import { OrderDetailsComponent } from './components/order-details/order-details.
     MatCardModule,
     MatButtonModule
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    DecimalPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

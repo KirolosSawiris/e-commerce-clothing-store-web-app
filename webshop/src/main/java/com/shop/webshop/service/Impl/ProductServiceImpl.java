@@ -38,20 +38,4 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(FProduct);
     }
 
-    @Override
-    public List<Product> filterProducts(Category category, BigDecimal minPrice, BigDecimal maxPrice, String size) {
-        List<Product> products = productRepository.findAll();
-        List<Product> results = new ArrayList<>();
-        for(Product product : products){
-            if(
-                    product.getCategory().getId() == category.getId()
-                    && product.getPrice().compareTo(minPrice) >= 0
-                    && product.getPrice().compareTo(maxPrice) <= 0
-                    && product.getSize() == size)
-            {
-                results.add(product);
-            }
-        }
-        return results;
-    }
 }

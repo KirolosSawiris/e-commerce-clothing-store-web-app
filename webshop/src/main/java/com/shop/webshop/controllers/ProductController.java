@@ -69,12 +69,12 @@ public class ProductController {
 //    }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<Product>> filterProducts(@RequestParam(required = false) BigDecimal minPrice,
-                                                        @RequestParam(required = false) BigDecimal maxPrice,
+    public ResponseEntity<List<Product>> filterProducts(@RequestParam(required = false) Double minPrice,
+                                                        @RequestParam(required = false) Double maxPrice,
                                                         @RequestParam(required = false) String category,
                                                         @RequestParam(required = false) String gender,
                                                         @RequestParam(required = false) String size) {
-        List<Product> products = productRepository.findAll();
+        List<Product> products = productRepository.findProductByActive(true, Sort.by("id"));
         List<Product> results = new ArrayList<>();
         for(Product product : products){
                 if(category != null){
@@ -83,12 +83,12 @@ public class ProductController {
                     }
                 }
                 if(minPrice != null){
-                    if(product.getPrice().compareTo(minPrice) < 0){
+                    if(product.getPrice() < minPrice){
                         continue;
                     }
                 }
                 if(maxPrice != null){
-                    if(product.getPrice().compareTo(maxPrice) > 0){
+                    if(product.getPrice() > maxPrice){
                         continue;
                     }
                 }

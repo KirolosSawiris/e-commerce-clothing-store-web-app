@@ -28,7 +28,7 @@ public class CartServiceImpl implements CartService {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Cannot add this quantity to cart");
         }
         cart = cartRepository.getById(cart.getId());
-        cart.setCartTotal(cart.getCartTotal() + cartItem.getQuantity() * cartItem.getProduct().getPrice().doubleValue());
+        cart.setCartTotal(cart.getCartTotal() + cartItem.getQuantity() * cartItem.getProduct().getPrice());
         cartItem.setCart(cart);
         cartRepository.save(cart);
         for(CartItem item : cart.getCartItems()){
@@ -49,7 +49,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeCartItem(Cart cart, CartItem cartItem) {
         cart = cartRepository.getById(cart.getId());
-        cart.setCartTotal(cart.getCartTotal() - cartItem.getQuantity() * cartItem.getProduct().getPrice().doubleValue());
+        cart.setCartTotal(cart.getCartTotal() - cartItem.getQuantity() * cartItem.getProduct().getPrice());
 
         CartItem requested = cartItemRepository.getById(cartItem.getId());
         if(requested.getQuantity()-cartItem.getQuantity() > 0) {

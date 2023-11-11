@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -49,7 +49,7 @@ export class CartComponent {
 //     "service_type": "UPS Worldwide Express®"
 // }];
 
-  constructor(private apiService: ApiService, private router: Router, private authService: AuthService, private toastr: ToastrService, private datePipe: DatePipe) { }
+  constructor(private apiService: ApiService, private router: Router, private authService: AuthService, private toastr: ToastrService, private datePipe: DatePipe, private decimalPipe: DecimalPipe) { }
 
   //check if the token exist, if not then the user need to login first
   async ngOnInit() {
@@ -174,10 +174,11 @@ export class CartComponent {
     console.log(cartItem);
     await this.authService.removeFromCart(oneQuantityItem);
     cartItem.quantity = cartItem.quantity - 1;
+    
     if(cartItem.quantity == 0){
       this.user.cart.cartItems = this.user.cart.cartItems.filter((i: any) => i.id !== cartItem.id);
     }
-    this.user.cart.cartTotal = this.user.cart.cartTotal - cartItem.product.price;
+    this.user.cart.cartTotal = Number(this.decimalPipe.transform(this.user.cart.cartTotal - cartItem.product.price));
     this.total = this.shipping + this.user.cart.cartTotal;
   }
   async increaseQuantity(cartItem: any){
