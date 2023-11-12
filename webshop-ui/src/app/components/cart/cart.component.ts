@@ -156,7 +156,7 @@ export class CartComponent {
           <p><strong>Shipping Service:</strong> ${ order.shipment.service_type }</p>
         </div>
         <div>
-          <p><strong>Total:</strong> ${order.amount}</p>
+          <p><strong>Total:</strong>$${order.amount}</p>
         </div>
       </div>`,
         confirmButtonText: "OK",

@@ -1,23 +1,32 @@
-<div class="container bg-dark rounded mb-3">
-    <div class="row">
-        <div class="col-md-5 border-right rounded mx-auto bg-white text-black my-3">
-            <form class="p-3 py-5" [formGroup]="form" (submit)="submit()">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Settings</h4>
-                </div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings</title>
+</head>
+
+<body class="bg-dark">
+    <div class="container">
+        <div class="card bg-light">
+            <div class="card-header text-center">
+                <h3 class="card-title text-black">Profile Settings</h3>
+            </div>
+            <div class="card-body">
+            <form [formGroup]="form" (submit)="submit()">
                 <div class="row mt-2">
                     <div class="col-md-6"><label class="labels">Name</label><input [ngClass]="{'is-invalid': validate('firstName')}" formControlName="firstName" type="text" class="form-control" placeholder="first name" [(ngModel)]="user.firstName"></div>
                     <div class="col-md-6"><label class="labels">Surname</label><input [ngClass]="{'is-invalid': validate('lastName')}" formControlName="lastName" type="text" class="form-control" [(ngModel)]="user.lastName" placeholder="surname"></div>
                 </div>
                 <div class="row mt-1">
                     <div class="col-md-12"><label class="labels">Username</label><input [ngClass]="{'is-invalid': validate('username')}" formControlName="username" type="text" class="form-control" placeholder="enter username" [(ngModel)]="user.username"></div>
-                    <div class="col-md-12"><label class="labels">Address Line</label><input [ngClass]="{'is-invalid': validate('address')}" formControlName="address" type="text" class="form-control" placeholder="enter address" [(ngModel)]="user.address"></div>
-                    <div class="col-md-12"><label class="labels">Postcode</label><input [ngClass]="{'is-invalid': validate('postcode')}" formControlName="postcode" type="text" class="form-control" placeholder="enter postcode" [(ngModel)]="user.postcode"></div>
                     <div class="col-md-12"><label class="labels">Email</label><input [ngClass]="{'is-invalid': validate('email')}" formControlName="email" type="text" class="form-control" placeholder="enter email" [(ngModel)]="user.email"></div>
-                </div>
+                    <div class="col-md-12"><label class="labels">Address Line</label><input [ngClass]="{'is-invalid': validate('address')}" formControlName="address" type="text" class="form-control" placeholder="enter address" [(ngModel)]="user.address"></div>                </div>
                 <div class="row mt-1">
-                    <div class="col-md-6"><label class="labels">Country</label><input [ngClass]="{'is-invalid': validate('country')}" formControlName="country" type="text" class="form-control" placeholder="country" [(ngModel)]="user.country"></div>
-                    <div class="col-md-6"><label class="labels">State/Region</label><input [ngClass]="{'is-invalid': validate('region')}" formControlName="region" type="text" class="form-control" [(ngModel)]="user.region" placeholder="state"></div>
+                    <div class="col-md-4"><label class="labels">Postcode</label><input [ngClass]="{'is-invalid': validate('postcode')}" formControlName="postcode" type="text" class="form-control" placeholder="enter postcode" [(ngModel)]="user.postcode"></div>
+                    <div class="col-md-4"><label class="labels">State/Region</label><input [ngClass]="{'is-invalid': validate('region')}" formControlName="region" type="text" class="form-control" [(ngModel)]="user.region" placeholder="state"></div>
+                    <div class="col-md-4"><label class="labels">Country</label><input [ngClass]="{'is-invalid': validate('country')}" formControlName="country" type="text" class="form-control" placeholder="country" [(ngModel)]="user.country"></div>
                 </div>
                 <div class="mt-5 text-center">
                     <button onclick="window.location.href='/profile';" class="btn btn-secondary bi bi-box-arrow-left mx-5"> Back</button>

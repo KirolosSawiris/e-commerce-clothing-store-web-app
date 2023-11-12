@@ -39,7 +39,7 @@ public class PaymentController {
         return order;
     }
 
-    @PostMapping("/confirm-payment") //se-4416293876
+    @PostMapping("/confirm-payment")
     public Order confirmPayment(@RequestBody PaymentResponse paymentResponse) {
         return paymentService.confirmPayment(paymentResponse);
     }
@@ -48,8 +48,6 @@ public class PaymentController {
     public Shipment shipping(@PathVariable ("rateId") String rateId){
         return paymentService.shipping(rateId);
     }
-
-
 
 }
 

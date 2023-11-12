@@ -56,18 +56,6 @@ public class ProductController {
         }
     }
 
-//    @PatchMapping(path = "/upload/{id}")
-//    public ResponseEntity<Boolean> addPhoto(@PathVariable(name = "id") Long id,
-//                                            @RequestParam("productImage") MultipartFile file) throws IOException {
-//        productImageService.uploadImage(file, id);
-//        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-//    }
-//    @GetMapping("/download/{id}")
-//    public ResponseEntity<byte[]> downloadImage(@PathVariable Long id) {
-//        byte[] image = productImageService.downloadImage(id);
-//        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
-//    }
-
     @GetMapping("/filter")
     public ResponseEntity<List<Product>> filterProducts(@RequestParam(required = false) Double minPrice,
                                                         @RequestParam(required = false) Double maxPrice,

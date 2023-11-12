@@ -11,9 +11,6 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-//    @Transactional
-//    @Modifying
-//    @Query(value = "select * from orders where razorpay_order_id = :razorpayId", nativeQuery = true)
     Order findOrderByRazorpayOrderId(String razorpayId);
     List<Order> findOrderByStatus(String status);
 }

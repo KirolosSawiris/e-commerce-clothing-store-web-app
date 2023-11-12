@@ -29,8 +29,4 @@ public class CategoryController {
     public Category create(@RequestBody final Category category){
         return categoryRepository.saveAndFlush(category);
     }
-//    @GetMapping("/{id}")
-//    public Category get(@PathVariable ("id") long id){
-//        return categoryRepository.getOne(id);
-//    }
 }

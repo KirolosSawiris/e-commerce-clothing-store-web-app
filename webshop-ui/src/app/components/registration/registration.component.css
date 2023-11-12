@@ -1,3 +1,26 @@
 .labels {
     font-size: 11px
 }
+ /* Custom CSS for the page */
+ body {
+    background-color: #f8f9fa; /* Light gray background */
+}
+
+.container {
+    max-width: 1000px; /* Center content and limit width */
+    padding: 50px;
+}
+
+.card {
+    border:black; /* Remove card border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+.card-header {
+    background-color: #F0F0F0; /* Blue header background */
+    color: #fff; /* White header text */
+    border-radius: 10px 10px 0 0; /* Rounded corners for the top */
+}
+
+

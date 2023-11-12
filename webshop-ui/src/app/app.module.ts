@@ -27,7 +27,6 @@ import { PaymentComponent } from './components/payment/payment.component'
 import { NgxStripeModule } from 'ngx-stripe';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
@@ -48,7 +47,6 @@ import { OrderDetailsComponent } from './components/order-details/order-details.
     ChangePasswordComponent,
     AddProductComponent,
     PaymentComponent,
-    AdminDashboardComponent,
     EditProductComponent,
     ForgotPasswordComponent,
     OrderDetailsComponent

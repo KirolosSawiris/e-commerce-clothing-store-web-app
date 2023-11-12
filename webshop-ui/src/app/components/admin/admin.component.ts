@@ -17,12 +17,13 @@ export class AdminComponent implements OnInit{
   public customerEmail: any;
   public minPayment: any;
   public maxPayment: any;
+  public username:any;
 
   constructor(private authService: AuthService, private router: Router, private arouter: ActivatedRoute){}
   async ngOnInit() {
     this.user = await this.authService.getUser();
-    const username = this.arouter.snapshot.paramMap.get("username");
-    if(username){
+    this.username = this.arouter.snapshot.paramMap.get("username");
+    if(this.username){
       this.orders = this.user.orders;
     }
     else{

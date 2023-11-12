@@ -87,12 +87,6 @@ public class UserController {
         User requestedUser = userRepository.findByUsername(requestedUsername)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + requestedUsername));
         requestedUser.setPassword(null);
-//        if(requestedUser.getUsername().equals("tito")){
-//            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Account Inactive");
-//
-//        }
-        //requestedUser.getCart().updateTotal();
-        //cartRepository.save(requestedUser.getCart());
         return requestedUser;
     }
 
