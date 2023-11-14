@@ -1,6 +1,5 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminComponent } from './components/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { AppComponent } from './app.component';
@@ -16,6 +15,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
+import { OrdersDashboardComponent } from './components/orders-dashboard/orders-dashboard.component';
 
 const routes: Routes = [
   {
@@ -76,11 +76,11 @@ const routes: Routes = [
   },
   {
     path: 'orders',
-    component: AdminComponent
+    component: OrdersDashboardComponent
   },
   {
     path: 'orders/:username',
-    component: AdminComponent
+    component: OrdersDashboardComponent
   },
   {
     path: 'forgotPassword',

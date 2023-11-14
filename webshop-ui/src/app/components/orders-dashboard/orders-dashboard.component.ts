@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginComponent } from '../login/login.component';
-import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: 'app-orders-dashboard',
+  templateUrl: './orders-dashboard.component.html',
+  styleUrls: ['./orders-dashboard.component.css']
 })
-export class AdminComponent implements OnInit{
+export class OrdersDashboardComponent implements OnInit {
 
   public orders: any;
   public user: any;
@@ -47,5 +45,4 @@ export class AdminComponent implements OnInit{
   showOrderDetails(order: any){
     this.router.navigate(['order', order.id]);
   }
-
 }

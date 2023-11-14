@@ -21,6 +21,7 @@ public class Product {
     private int quantity;
     private String color;
     private String size;
+    private double weight;
     private String description;
     private String image;
     @Column(nullable = false)
@@ -94,6 +95,14 @@ public class Product {
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
     public String getColor() {

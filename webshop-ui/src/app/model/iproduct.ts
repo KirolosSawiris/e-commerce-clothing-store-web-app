@@ -5,6 +5,7 @@ export interface IProduct {
   title: string;
   price: number;
   quantity: number;
+  weight: number;
   color: string;
   size: string;
   description: string;

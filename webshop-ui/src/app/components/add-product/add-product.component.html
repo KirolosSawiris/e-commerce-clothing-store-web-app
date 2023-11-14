@@ -33,9 +33,16 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="quantity" class="form-label">Quantity:</label>
-                                <input type="number" formControlName="quantity" class="form-control" id="quantity"
-                                    name="quantity" required>
+                                <label for="size" class="form-label">Size:</label>
+                                <select type="text" formControlName="size" class="form-select" id="size" name="size">
+                                    <option [ngValue]="undefined">Select Size</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                                
                             </div>
 
                             <div class="mb-3">
@@ -68,16 +75,20 @@
                                 <input type="file" class="form-control" (change)="onFileSelected($event)" id="image"
                                     name="image" accept="image/*" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="size" class="form-label">Size:</label>
-                                <select type="text" formControlName="size" class="form-select" id="size" name="size">
-                                    <option [ngValue]="undefined">Select Size</option>
-                                    <option value="XS">XS</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                </select>
+                            <div class="mb-3 row">
+                                <div class="col-md-6">
+                                    <label for="weight" class="form-label">Weight:</label>
+                                <div class="input-group">
+                                    <input type="number" formControlName="weight" class="form-control" id="weight"
+                                        name="weight" step="0.1" required>
+                                    <span class="input-group-text">Ounces</span>
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="quantity" class="form-label">Quantity:</label>
+                                <input type="number" formControlName="quantity" class="form-control" id="quantity"
+                                    name="quantity" required>
+                                </div>
                             </div>
                             <div *ngIf="form.get('category')?.value === 'new'" class="mb-3">
                                 <label for="newCategoryGender" class="form-label">New Category Gender:</label>

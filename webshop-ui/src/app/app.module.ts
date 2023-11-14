@@ -4,7 +4,6 @@ import { HttpClientModule } from'@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AdminComponent } from './components/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
@@ -30,12 +29,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
+import { OrdersDashboardComponent } from './components/orders-dashboard/orders-dashboard.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminComponent,
     LoginComponent,
     HomeComponent,
     UserProfileComponent,
@@ -49,7 +48,8 @@ import { OrderDetailsComponent } from './components/order-details/order-details.
     PaymentComponent,
     EditProductComponent,
     ForgotPasswordComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    OrdersDashboardComponent
   ],
   imports: [
     BrowserModule,

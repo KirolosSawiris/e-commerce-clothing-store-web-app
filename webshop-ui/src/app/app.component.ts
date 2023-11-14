@@ -149,7 +149,10 @@ export class AppComponent {
       }
       else{
         if(this.showAcountDropdown){
-          this.showAcountDropdown = false;
+          setTimeout(() => {
+            this.showAcountDropdown = false;
+          }, 100);
+          
         }
       }
     }

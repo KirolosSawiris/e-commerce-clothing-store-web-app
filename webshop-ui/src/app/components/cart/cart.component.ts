@@ -195,7 +195,12 @@ export class CartComponent {
     }
   }
   async changeOptions(){
-    this.packageWeghit = Number(localStorage.getItem("cartElms"))*5;
+    await this.getUser();
+    let weight = 0;
+    for(let cartItem of this.user.cart.cartItems){
+      weight += cartItem.product.weight * cartItem.quantity;      
+    }
+    this.packageWeghit = weight;    
     this.shippingOptions= await this.apiService.ShippingCostOptions(this.user, this.address, this.countryCode, this.city, this.postCode,this.packageWeghit);
     this.shippingOptions = this.shippingOptions.rate_response.rates;
     this.shippingOptions.sort((b: any, a: any) => new Date(b.estimated_delivery_date).getTime() - new Date(a.estimated_delivery_date).getTime());

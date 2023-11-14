@@ -20,33 +20,41 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title:</label>
-                                <input type="text" [(ngModel)]="product.title" formControlName="title" class="form-control" id="title" name="title"
-                                    required>
+                                <input type="text" [(ngModel)]="product.title" formControlName="title"
+                                    class="form-control" id="title" name="title" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="price" class="form-label">Price:</label>
                                 <div class="input-group">
-                                    <input type="number" [(ngModel)]="product.price" formControlName="price" class="form-control" id="price"
-                                        name="price" step="0.01" required>
+                                    <input type="number" [(ngModel)]="product.price" formControlName="price"
+                                        class="form-control" id="price" name="price" step="0.01" required>
                                     <span class="input-group-text">$</span>
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="quantity" class="form-label">Quantity:</label>
-                                <input type="number" [(ngModel)]="product.quantity" formControlName="quantity" class="form-control" id="quantity"
-                                    name="quantity" required>
+                                <label for="size" class="form-label">Size:</label>
+                                <select type="text" [(ngModel)]="product.size" formControlName="size"
+                                    class="form-select" id="size" name="size">
+                                    <option [ngValue]="undefined">Select Size</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
                             </div>
 
                             <div class="mb-3">
                                 <label for="color" class="form-label">Color:</label>
-                                <input type="text" [(ngModel)]="product.color" formControlName="color" class="form-control" id="color" name="color">
+                                <input type="text" [(ngModel)]="product.color" formControlName="color"
+                                    class="form-control" id="color" name="color">
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category:</label>
-                                <select formControlName="category" [(ngModel)]="product.category.id" class="form-select" id="category" name="category"
-                                    required>
+                                <select formControlName="category" [(ngModel)]="product.category.id" class="form-select"
+                                    id="category" name="category" required>
                                     <option [ngValue]="undefined">Select Category</option>
                                     <option *ngFor="let Category of categories" value="{{Category.id}}">
                                         {{Category.gender +" "+ Category.name}}</option>
@@ -69,16 +77,20 @@
                                 <input type="file" class="form-control" (change)="onFileSelected($event)" id="image"
                                     name="image" accept="image/*" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="size" class="form-label">Size:</label>
-                                <select type="text" [(ngModel)]="product.size" formControlName="size" class="form-select" id="size" name="size">
-                                    <option [ngValue]="undefined">Select Size</option>
-                                    <option value="XS">XS</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                </select>
+                            <div class="mb-3 row">
+                                <div class="col-md-6">
+                                    <label for="weight" class="form-label">Weight:</label>
+                                    <div class="input-group">
+                                        <input type="number" [(ngModel)]="product.weight" formControlName="weight"
+                                            class="form-control" id="weight" name="weight" step="0.1" required>
+                                        <span class="input-group-text">Ounces</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="quantity" class="form-label">Quantity:</label>
+                                    <input type="number" [(ngModel)]="product.quantity" formControlName="quantity"
+                                        class="form-control" id="quantity" name="quantity" required>
+                                </div>
                             </div>
                             <div *ngIf="form.get('category')?.value === 'new'" class="mb-3">
                                 <label for="newCategoryGender" class="form-label">New Category Gender:</label>
@@ -90,14 +102,15 @@
                                     <option [value]="'Boy'">Boy</option>
                                     <option [value]="'Girl'">Girl</option>
                                 </select>
-                                
+
                             </div>
                         </div>
                         <div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description:</label>
-                                <textarea [(ngModel)]="product.description" formControlName="description" class="form-control" id="description"
-                                    name="description" rows="4" maxlength="200" required></textarea>
+                                <textarea [(ngModel)]="product.description" formControlName="description"
+                                    class="form-control" id="description" name="description" rows="4" maxlength="200"
+                                    required></textarea>
                             </div>
                             <button type="submit" class="btn btn-outline-dark btn-block">Save Product</button>
                         </div>
